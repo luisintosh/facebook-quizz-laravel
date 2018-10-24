@@ -41,7 +41,20 @@
                     </ul>
                     <ul class="navbar-nav">
                         <li class="nav-item"><a href="#" class="nav-link font-weight-bold mr-3">Quizzes</a></li>
-                        <li class="nav-item"><a href="#" class="navbar-btn btn btn-primary"><i class="fab fa-facebook-square"></i> Conectar</a></li>
+                        @if (Auth::check())
+                            <li class="nav-item">
+                                <a class="nav-link font-weight-bold mr-3" href="{{ route('logout') }}"
+                                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                    {{ __('Logout') }}
+                                </a>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    @csrf
+                                </form>
+                            </li>
+                        @else
+                            <li class="nav-item"><a href="{{ route('social.auth', 'facebook') }}" class="navbar-btn btn btn-primary"><i class="fab fa-facebook-square"></i> Conectar</a></li>
+                        @endif
                     </ul>
                 </div>
             </div>
