@@ -1,0 +1,34 @@
+---------------------
+ Credits
+---------------------
+
+- Bootstrap 4.1 - http://getbootstrap.com/docs/4.1/getting-started/introduction/
+
+- Ionicons - http://ionicons.com/
+
+- Swiper slider - http://idangero.us/swiper/
+
+- Device mockup CSS - https://github.com/pixelsign/html5-device-mockups
+
+
+
+---------------------
+ Images
+--------------------
+
+Template uses some dribbble shots for demo purpose, all credits to thier designers:
+
+	- https://dribbble.com/shots/1600303-Delta
+	- https://dribbble.com/shots/1388275-Amazon-Streaming-Redesign
+	- https://dribbble.com/shots/2786568-Planet-Movies
+	- https://dribbble.com/shots/3783822-APP-Movies-UI-Design
+
+
+
+---------------------
+ Fonts
+---------------------
+
+- Source Sans - https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700
+
+
