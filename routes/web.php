@@ -18,3 +18,6 @@ Route::get('/', 'HomeController@index')->name('home');
 // Social Auth
 Route::get('auth/{provider}', 'Auth\SocialAuthController@redirectToProvider')->name('social.auth');
 Route::get('auth/{provider}/callback', 'Auth\SocialAuthController@handleProviderCallback');
+
+// Quizzes
+Route::resource('quizzes', 'QuizController');
