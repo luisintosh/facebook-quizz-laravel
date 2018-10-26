@@ -6,40 +6,57 @@
             <h1>{{ __('Creación de Quizzes') }}</h1>
             <hr>
             <div class="form">
-                <form method="{{ $quiz->id ? 'PUT' : 'POST' }}"
+                @include('layouts.messages')
+
+                <form method="{{ $quiz->id ? 'PUT' : 'POST' }}" enctype="multipart/form-data"
                       action="{{ $quiz->id ? route('quizzes.update', $quiz->id) : route('quizzes.store') }}">
                     @csrf
+                    @if ($quiz->id)
+                        @method('PUT')
+                    @else
+                        @method('POST')
+                    @endif
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="title">{{ __('Título') }}</label>
-                                <input name="title" id="title" type="text" class="form-control" value="{{ $quiz->title }}">
+                                <input name="title" id="title" type="text" class="form-control"
+                                       value="{{ $quiz->title }}" maxlength="150">
                                 <small class="form-text text-muted">{{ __('Título del Quiz, SEO y página') }}</small>
                             </div>
                             <div class="form-group">
                                 <label for="slug">{{ __('Slug') }}</label>
                                 <input name="slug" id="slug" type="text"
-                                       class="form-control" value="{{ $quiz->slug }}">
+                                       class="form-control" value="{{ $quiz->slug }}" maxlength="100">
                                 <small class="form-text text-muted">{{ __('URL de la página') }}</small>
                             </div>
                             <div class="form-group">
                                 <label for="description">{{ __('Descripción') }}</label>
                                 <textarea name="description" id="description" class="form-control"
-                                          rows="5">{{ $quiz->description }}</textarea>
+                                          rows="5" maxlength="150">{{ $quiz->description }}</textarea>
                                 <small class="form-text text-muted">{{ __('Descripción del Quiz, SEO y página') }}</small>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
+                                <label for="enabled">{{ __('Estado del quiz') }}</label>
+                                <select name="enabled" id="enabled" class="form-control">
+                                    <option value="1">{{ __('Activado') }}</option>
+                                    <option value="0">{{ __('Desactivado') }}</option>
+                                </select>
+                                <small class="form-text text-muted">{{ __('Al activarse, se muestra este quiz en el sistema como usable') }}</small>
+                            </div>
+
+                            <div class="form-group">
                                 <label for="resultTitle">{{ __('Título del resultado') }}</label>
                                 <input name="resultTitle" id="resultTitle" type="text"
-                                       class="form-control" value="{{ $quiz->resultTitle }}">
+                                       class="form-control" value="{{ $quiz->resultTitle }}" maxlength="150">
                                 <small class="form-text text-muted">{{ __('Este título se mostrará en el resultado del Quiz') }}</small>
                             </div>
                             <div class="form-group">
                                 <label for="resultDescription">{{ __('Descripción del resultado') }}</label>
                                 <textarea name="resultDescription" id="resultDescription" class="form-control"
-                                          rows="5">{{ $quiz->description }}</textarea>
+                                          rows="5" maxlength="150">{{ $quiz->description }}</textarea>
                                 <small class="form-text text-muted">{{ __('Esta descripción se mostrará en el resultado del Quiz') }}</small>
                             </div>
                         </div>
@@ -68,41 +85,38 @@
                             </div>
                         </div>
                         <div class="col-md-9">
-                            <div class="uploader text-center">
-                                <input name="coverImageUrl" type="file" class="form-control-file" value="{{ $quiz->coverImageUrl }}">
+                            <div class="uploader">
+                                <input name="coverImageUrl" id="coverImageUrl" type="file"
+                                       class="form-control-file" accept="image/*" value="{{ $quiz->coverImageUrl }}">
                             </div>
                             <hr>
-                            <img src="{{ $quiz->coverImageUrl ? $quiz->coverImageUrl : 'https://via.placeholder.com/1200x630' }}"
-                                 alt="Cover image" id="imageContainer" class="img-fluid">
+                            <a href="{{ $quiz->coverImageUrl ? $quiz->coverImageUrl : asset('images/quizzes/quizCoverImagePlaceholder.png') }}" target="_blank">
+                                <img src="{{ $quiz->coverImageUrl ? $quiz->coverImageUrl : asset('images/quizzes/quizCoverImagePlaceholder.png') }}"
+                                     alt="Cover image" id="coverImageContainer" class="img-fluid">
+                                <img src="{{ public_path('/quizzes/3/coverImage.jpeg') }}" alt="">
+                            </a>
                         </div>
                     </div>
                     <hr>
+                    <div class="formActions text-right">
+                        <input name="save" type="submit" class="btn btn-success" value="{{ __('Guardar') }}">
+                        <input name="saveNClose" type="submit" class="btn btn-primary" value="{{ __('Guardar y cerrar') }}">
+                        <a href="{{ route('quizzes.index') }}" class="btn btn-secondary">{{ __('Cancelar') }}</a>
+                    </div>
+                </form>
+                <hr>
+                <div id="quizImageList">
                     <h3>Imágenes</h3>
                     <br>
-                    <div class="text-right mb-3">
-                        <button type="button" id="addFileInput" class="btn btn-primary">
-                            <i class="fas fa-plus"></i>
-                            {{ __('Agregar imagen') }}
-                        </button>
-                    </div>
-                    <div id="quizImageList">
+                    @if ($quiz->id)
+                        <form action="{{ route('quizzes.image.upload') }}"
+                              class="dropzone m-2 p-2"
+                              id="my-awesome-dropzone">
+                            @csrf
+                            <input type="hidden" name="id" value="{{ $quiz->id }}">
+                        </form>
                         <table class="table table-striped">
                             <tbody>
-                            @if($quiz->images()->count() == 0)
-                                <tr>
-                                    <td class="imageTag"><img src="" class="img-fluid" height="50"></td>
-                                    <td class="imageInput">
-                                        <input type="file" name="imageList[]" accept="image/*"
-                                               class="form-control-file imageListInput" value="">
-                                    </td>
-                                    <td class="imageSize"></td>
-                                    <td>
-                                        <button type="button" class="btn btn-light btn-sm removeImage">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            @endif
                             @foreach($quiz->images() as $image)
                                 <tr>
                                     <td class="imageTag"><img src="#" class="img-fluid" height="50"></td>
@@ -120,10 +134,10 @@
                             @endforeach
                             </tbody>
                         </table>
-
-
-                    </div>
-                </form>
+                    @else
+                        <i>{{ __('Para subir las imágenes plantilla del quiz, primero guarda los cambios actuales.') }}</i>
+                    @endif
+                </div>
             </div>
         </div>
     </div>
@@ -131,40 +145,28 @@
 
 @push('scripts')
     <script>
-        // Image elements
-        var imageList = $('#quizImageList table tbody');
-        var imageRow = $('#imageRowTemplate').parent().html();
+      // Check image width and height
+      $('#coverImageUrl').change(function () {
+        var self = this;
+        var fr = new FileReader;
 
-        // If the list doesn't have at least a row
-        if ( imageList.find('tr').length === 1 ) {
-          imageList.append(imageRow);
-        }
+        fr.onload = function() {
+          var img = new Image;
 
-        // Add a file input
-        $('#addFileInput').click(function () {
-          imageList.append(imageRow);
-        });
-
-        // Check image width and height
-        $('.imageListInput').change(function () {
-          var self = this;
-          var fr = new FileReader;
-
-          fr.onload = function() {
-            var img = new Image;
-
-            img.onload = function() {
-              if (! (img.width === 1200 && img.height === 630) ) {
-                self.value = '';
-                alert('The image must have a size of 1200x630px');
-              }
-            };
-
-            img.src = fr.result;
+          img.onload = function() {
+            if (! (img.width === 1200 && img.height === 630) ) {
+              self.value = '';
+              alert("{{ __('La imágen debe tener exactamente las medidas 1200x630px') }}");
+            } else {
+              $('#coverImageContainer').attr('src', img.src);
+            }
           };
 
-          fr.readAsDataURL(this.files[0]);
+          img.src = fr.result;
+        };
 
-        });
+        fr.readAsDataURL(this.files[0]);
+
+      });
     </script>
 @endpush

@@ -31,4 +31,12 @@ class Quiz extends Model
     public function images() {
         return $this->hasMany('App\QuizImage');
     }
+
+    public function getImageCoverPath() {
+        return 'quizzes' . DIRECTORY_SEPARATOR . $this->id;
+    }
+
+    public function getImageThumbPath() {
+        return 'quizzes' . DIRECTORY_SEPARATOR . $this->id . DIRECTORY_SEPARATOR . 'thumb';
+    }
 }

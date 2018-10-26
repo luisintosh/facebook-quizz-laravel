@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreQuiz;
 use App\Quiz;
+use App\QuizImage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Input;
+use Intervention\Image\Image;
 
 class QuizController extends Controller
 {
@@ -35,9 +40,56 @@ class QuizController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreQuiz $request)
     {
-        //
+        $success = false;
+
+        $quiz = new Quiz();
+        $quiz->title = $request->input('title');
+        $quiz->slug = $request->input('slug');
+        $quiz->description = $request->input('description');
+        $quiz->resultTitle = $request->input('resultTitle');
+        $quiz->resultDescription = $request->input('resultDescription');
+        $quiz->avatarPositionX = $request->input('avatarPositionX');
+        $quiz->avatarPositionY = $request->input('avatarPositionY');
+        $quiz->enabled = $request->input('enabled');
+
+        if ($quiz->save() && $request->file('coverImageUrl')->isValid()) {
+
+            //setting flag for condition
+            $org_img = $thm_img = true;
+
+            // Create dirs
+            if (! File::exists($quiz->getImageCoverPath())) {
+                File::makeDirectory(public_path($quiz->getImageCoverPath()), 0755, true);
+            }
+            if (! File::exists($quiz->getImageThumbPath())) {
+                File::makeDirectory(public_path($quiz->getImageThumbPath()), 0755, true);
+            }
+
+
+            Image::make($request->file('coverImageUrl'))
+                ->encode('jpg', 75)
+                ->save($quiz->getImageCoverPath());
+            Image::make($request->file('coverImageUrl'))
+                ->fit(300, 157)
+                ->encode('jpg', 75)
+                ->save($quiz->getImageThumbPath());
+
+            $quiz->coverImageUrl = $quiz->getImageCoverPath();
+
+            if ($quiz->save()) {
+                $success = true;
+            }
+        }
+
+        if ($request->has('save') && $success) {
+            return redirect()->route('quizzes.edit', [$quiz->id])
+                ->with('success', __('¡Quiz guardado con éxito!'));
+        } elseif ($request->has('saveNClose') && $success) {
+            return redirect()->route('quizzes.index')
+                ->with('success', __('¡Quiz guardado con éxito!'));
+        }
     }
 
     /**
@@ -83,5 +135,28 @@ class QuizController extends Controller
     public function destroy(Quiz $quiz)
     {
         //
+    }
+
+    public function uploadImage(Request $request) {
+        $this->validate($request, [
+            'file' => 'required|image|mimes:png|max:2048',
+            'id' => 'required|integer'
+        ]);
+
+        if ($request->file('file')->isValid()) {
+
+            $fileExt = $request->file('file')->extension();
+            $fileSize = $request->file('file')->getSize();
+            $fileStoredPath = $request->file('file')->storeAs('quizzes'.DIRECTORY_SEPARATOR.'5', time().$fileExt);
+
+            $quizImage = new QuizImage([
+                'quiz_id' => $request->input('id'),
+                'imageUrl' => asset($fileStoredPath),
+                'imageSize' => $fileSize
+            ]);
+            $quizImage->save();
+
+            return response('success', 200);
+        }
     }
 }

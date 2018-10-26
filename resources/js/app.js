@@ -9,3 +9,4 @@ require('./bootstrap');
 require('../theme/showtracker/vendor/jquery.cookie/jquery.cookie');
 window.Swiper = require('../theme/showtracker/vendor/swiper/js/swiper');
 require('./libs/jquery.restfulizer');
+window.Dropzone = require('./libs/dropzone/dropzone');

@@ -21,3 +21,4 @@ Route::get('auth/{provider}/callback', 'Auth\SocialAuthController@handleProvider
 
 // Quizzes
 Route::resource('quizzes', 'QuizController');
+Route::post('quizzes/images/upload', 'QuizController@uploadImage')->name('quizzes.image.upload');
