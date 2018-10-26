@@ -44,47 +44,52 @@ class QuizController extends Controller
     {
         $success = false;
 
-        $quiz = new Quiz();
-        $quiz->title = $request->input('title');
-        $quiz->slug = $request->input('slug');
-        $quiz->description = $request->input('description');
-        $quiz->resultTitle = $request->input('resultTitle');
-        $quiz->resultDescription = $request->input('resultDescription');
-        $quiz->avatarPositionX = $request->input('avatarPositionX');
-        $quiz->avatarPositionY = $request->input('avatarPositionY');
-        $quiz->enabled = $request->input('enabled');
+        try {
+            $quiz = new Quiz();
+            $quiz->title = $request->input('title');
+            $quiz->slug = $request->input('slug');
+            $quiz->description = $request->input('description');
+            $quiz->resultTitle = $request->input('resultTitle');
+            $quiz->resultDescription = $request->input('resultDescription');
+            $quiz->avatarPositionX = $request->input('avatarPositionX');
+            $quiz->avatarPositionY = $request->input('avatarPositionY');
+            $quiz->enabled = $request->input('enabled');
 
-        if ($quiz->save() && $request->file('coverImageUrl')->isValid()) {
+            if ($quiz->save() && $request->file('coverImageUrl')->isValid()) {
 
-            //setting flag for condition
-            $org_img = $thm_img = true;
+                //setting flag for condition
+                $org_img = $thm_img = true;
 
-            // Create dirs
-            if (! File::exists($quiz->getImageCoverPath())) {
-                File::makeDirectory(public_path($quiz->getImageCoverPath()), 0755, true);
+                // Create dirs
+                if (! File::exists($quiz->getImageCoverPath())) {
+                    File::makeDirectory(public_path($quiz->getImageCoverPath()), 0755, true);
+                }
+                if (! File::exists($quiz->getImageThumbPath())) {
+                    File::makeDirectory(public_path($quiz->getImageThumbPath()), 0755, true);
+                }
+
+
+                Image::make($request->file('coverImageUrl'))
+                    ->encode('jpg', 75)
+                    ->save($quiz->getStorageDirName() . DIRECTORY_SEPARATOR . Quiz::COVER_IMAGE_NAME);
+                Image::make($request->file('coverImageUrl'))
+                    ->fit(300, 157)
+                    ->encode('jpg', 75)
+                    ->save($quiz->getStorageDirName() . DIRECTORY_SEPARATOR . Quiz::THUMB_IMAGE_NAME);
+
+                $quiz->coverImageUrl = $quiz->getImageCoverPath();
+
+                if ($quiz->save()) {
+                    $success = true;
+                }
             }
-            if (! File::exists($quiz->getImageThumbPath())) {
-                File::makeDirectory(public_path($quiz->getImageThumbPath()), 0755, true);
-            }
-
-
-            Image::make($request->file('coverImageUrl'))
-                ->encode('jpg', 75)
-                ->save($quiz->getImageCoverPath());
-            Image::make($request->file('coverImageUrl'))
-                ->fit(300, 157)
-                ->encode('jpg', 75)
-                ->save($quiz->getImageThumbPath());
-
-            $quiz->coverImageUrl = $quiz->getImageCoverPath();
-
-            if ($quiz->save()) {
-                $success = true;
-            }
+        } catch (\Exception $exception) {
+            $success = false;
+            var_dump($exception);
         }
 
         if ($request->has('save') && $success) {
-            return redirect()->route('quizzes.edit', [$quiz->id])
+            return redirect()->route('quiz.edit', [$quiz->id])
                 ->with('success', __('¡Quiz guardado con éxito!'));
         } elseif ($request->has('saveNClose') && $success) {
             return redirect()->route('quizzes.index')

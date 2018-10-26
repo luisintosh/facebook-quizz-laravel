@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Quiz extends Model
 {
 
+    const COVER_IMAGE_NAME = 'cover.jpg';
+    const THUMB_IMAGE_NAME = 'thumb.jpg';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -32,11 +35,7 @@ class Quiz extends Model
         return $this->hasMany('App\QuizImage');
     }
 
-    public function getImageCoverPath() {
+    public function getStorageDirName() {
         return 'quizzes' . DIRECTORY_SEPARATOR . $this->id;
-    }
-
-    public function getImageThumbPath() {
-        return 'quizzes' . DIRECTORY_SEPARATOR . $this->id . DIRECTORY_SEPARATOR . 'thumb';
     }
 }
