@@ -74,24 +74,29 @@
                                 <li class="list-group-item">{{ __('Tamaño de la foto de perfil: ') }} 300x300 px</li>
                             </ul>
                             <br>
-                            <div class="form-group">
-                                <label for="avatarPositionX">{{ __('Coordenada X') }}</label>
-                                <input name="avatarPositionX" id="avatarPositionX" type="number"
-                                       class="form-control" value="{{ $quiz->avatarPositionX }}">
-                                <small class="form-text text-muted">{{ __('Coordenada horizontal de la foto de perfil') }}</small>
-                            </div>
-                            <div class="form-group">
-                                <label for="avatarPositionY">{{ __('Coordenada Y') }}</label>
-                                <input name="avatarPositionY" id="avatarPositionY" type="number"
-                                       class="form-control" value="{{ $quiz->avatarPositionY }}">
-                                <small class="form-text text-muted">{{ __('Coordenada vertical de la foto de perfil') }}</small>
+                            <label for="avatarPositionX">{{ __('Coordenadas del avatar X/Y') }}</label>
+                            <div class="row">
+                                <div class="col">
+                                    <input name="avatarPositionX" id="avatarPositionX" type="number" placeholder="X"
+                                           class="form-control" value="{{ $quiz->avatarPositionX }}">
+                                </div>
+                                <div class="col">
+                                    <input name="avatarPositionY" id="avatarPositionY" type="number" placeholder="Y"
+                                           class="form-control" value="{{ $quiz->avatarPositionY }}">
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-9">
                             <div class="form-group">
-                                <label for="coverImage">{{ __('Imagen de portada') }}</label>
-                                <input name="coverImage" id="coverImage" type="file"
-                                       class="form-control form-control-file" accept="image/*">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">{{ __('Subir cover') }}</span>
+                                    </div>
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" name="coverImage" id="coverImage" accept="image/*">
+                                        <label class="custom-file-label" for="coverImage">{{ __('Elegir imagen de portada') }}</label>
+                                    </div>
+                                </div>
                                 <div class="invalid-feedback">
                                     {{ __('La imagen debe tener exactamente las medidas 1200x630px') }}
                                 </div>
