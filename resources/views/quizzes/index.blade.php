@@ -3,7 +3,7 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-            <div class="card-title">{{ __('Creación de Quizzes') }}</div>
+            <h1>{{ __('Lista de Quizzes') }}</h1>
             <hr>
             <div class="controls text-right mb-3">
                 <a href="{{ route('quizzes.create') }}" class="btn btn-primary">{{ __('Nuevo Quiz') }}</a>
@@ -14,6 +14,7 @@
                     <tr>
                         <th width="1%">{{ __('Imágen') }}</th>
                         <th>{{ __('Título') }}</th>
+                        <th width="1%">{{ __('Activo') }}</th>
                         <th width="1%">{{ __('Acciones') }}</th>
                     </tr>
                     </thead>
@@ -29,6 +30,13 @@
                                 <a href="{{ route('quizzes.edit', $quiz->id) }}">
                                     {{ $quiz->title }}
                                 </a>
+                            </td>
+                            <td>
+                                @if($quiz->enabled)
+                                    <i class="fas fa-check text-success"></i>
+                                @else
+                                    <i class="fas fa-times text-muted"></i>
+                                @endif
                             </td>
                             <td>
                                 <div class="btn-group">

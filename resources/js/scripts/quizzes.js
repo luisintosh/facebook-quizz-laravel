@@ -26,5 +26,24 @@ $(document).ready(function () {
             fr.readAsDataURL(this.files[0]);
 
         });
+
+        // convert title to slug
+        $('form #title').on('change keyup', function () {
+            const title = this.value.split('');
+            let slug = [];
+            title.forEach(function (element) {
+                if (/[$-/:-?{-~!"^_`\[\]]/.test(element)) {
+                    element = '';
+                } else if(element === ' ') {
+                    element = '-';
+                } else {
+                    element = element.toLowerCase();
+                }
+
+                slug.push(element);
+            });
+
+            $('form #slug').val(slug.join(''));
+        })
     }
 });

@@ -10,11 +10,17 @@ require('../theme/showtracker/vendor/jquery.cookie/jquery.cookie');
 window.Swiper = require('../theme/showtracker/vendor/swiper/js/swiper');
 require('./libs/jquery.restfulizer');
 window.Dropzone = require('./libs/dropzone/dropzone');
+require('summernote/dist/summernote-bs4.min');
 
-// Init all datatables
+// Init jquery plugins
 $(document).ready(function () {
+    // Datatables
     $('.dt').DataTable();
+    // WYSIWYG Editor
+    $('textarea.htmlEditor').summernote({
+        height: 300
+    });
 });
 
 // Page scripts
-require('./scripts/quiz');
+require('./scripts/quizzes');

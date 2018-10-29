@@ -3,8 +3,6 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-            <h1>{{ __('Creación de Quizzes') }}</h1>
-            <hr>
             <div class="form">
                 @include('layouts.messages')
 
@@ -16,6 +14,20 @@
                     @else
                         @method('POST')
                     @endif
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h1>{{ __('Creación de Quizzes') }}</h1>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <select name="enabled" id="enabled" class="form-control  form-control-sm">
+                                    <option value="1">{{ __('Activado') }}</option>
+                                    <option value="0">{{ __('Desactivado') }}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -32,21 +44,12 @@
                             </div>
                             <div class="form-group">
                                 <label for="description">{{ __('Descripción') }}</label>
-                                <textarea name="description" id="description" class="form-control"
+                                <textarea name="description" id="description" class="form-control htmlEditor"
                                           rows="5" maxlength="150">{{ $quiz->description }}</textarea>
                                 <small class="form-text text-muted">{{ __('Descripción del Quiz, SEO y página') }}</small>
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="enabled">{{ __('Estado del quiz') }}</label>
-                                <select name="enabled" id="enabled" class="form-control">
-                                    <option value="1">{{ __('Activado') }}</option>
-                                    <option value="0">{{ __('Desactivado') }}</option>
-                                </select>
-                                <small class="form-text text-muted">{{ __('Al activarse, se muestra este quiz en el sistema como usable') }}</small>
-                            </div>
-
                             <div class="form-group">
                                 <label for="resultTitle">{{ __('Título del resultado') }}</label>
                                 <input name="resultTitle" id="resultTitle" type="text"
@@ -55,7 +58,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="resultDescription">{{ __('Descripción del resultado') }}</label>
-                                <textarea name="resultDescription" id="resultDescription" class="form-control"
+                                <textarea name="resultDescription" id="resultDescription" class="form-control htmlEditor"
                                           rows="5" maxlength="150">{{ $quiz->description }}</textarea>
                                 <small class="form-text text-muted">{{ __('Esta descripción se mostrará en el resultado del Quiz') }}</small>
                             </div>
