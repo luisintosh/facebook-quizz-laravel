@@ -85,15 +85,18 @@
                             </div>
                         </div>
                         <div class="col-md-9">
-                            <div class="uploader">
-                                <input name="coverImageUrl" id="coverImageUrl" type="file"
-                                       class="form-control-file" accept="image/*" value="{{ $quiz->coverImageUrl }}">
+                            <div class="form-group">
+                                <label for="coverImage">{{ __('Imagen de portada') }}</label>
+                                <input name="coverImage" id="coverImage" type="file"
+                                       class="form-control form-control-file" accept="image/*">
+                                <div class="invalid-feedback">
+                                    {{ __('La imagen debe tener exactamente las medidas 1200x630px') }}
+                                </div>
                             </div>
                             <hr>
-                            <a href="{{ $quiz->coverImageUrl ? $quiz->coverImageUrl : asset('images/quizzes/quizCoverImagePlaceholder.png') }}" target="_blank">
-                                <img src="{{ $quiz->coverImageUrl ? $quiz->coverImageUrl : asset('images/quizzes/quizCoverImagePlaceholder.png') }}"
+                            <a href="{{ $quiz->coverImage ? $quiz->coverImage : asset('images/quizzes/quizCoverImagePlaceholder.png') }}" target="_blank">
+                                <img src="{{ $quiz->coverImage ? $quiz->coverImage : asset('images/quizzes/quizCoverImagePlaceholder.png') }}"
                                      alt="Cover image" id="coverImageContainer" class="img-fluid">
-                                <img src="{{ public_path('/quizzes/3/coverImage.jpeg') }}" alt="">
                             </a>
                         </div>
                     </div>
@@ -142,31 +145,3 @@
         </div>
     </div>
 @endsection
-
-@push('scripts')
-    <script>
-      // Check image width and height
-      $('#coverImageUrl').change(function () {
-        var self = this;
-        var fr = new FileReader;
-
-        fr.onload = function() {
-          var img = new Image;
-
-          img.onload = function() {
-            if (! (img.width === 1200 && img.height === 630) ) {
-              self.value = '';
-              alert("{{ __('La imágen debe tener exactamente las medidas 1200x630px') }}");
-            } else {
-              $('#coverImageContainer').attr('src', img.src);
-            }
-          };
-
-          img.src = fr.result;
-        };
-
-        fr.readAsDataURL(this.files[0]);
-
-      });
-    </script>
-@endpush

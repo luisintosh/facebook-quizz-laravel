@@ -13717,7 +13717,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(12);
-module.exports = __webpack_require__(40);
+module.exports = __webpack_require__(41);
 
 
 /***/ }),
@@ -13735,7 +13735,10 @@ __webpack_require__(13);
 __webpack_require__(36);
 window.Swiper = __webpack_require__(37);
 __webpack_require__(38);
-window.Dropzone = __webpack_require__(57);
+window.Dropzone = __webpack_require__(39);
+
+// Page scripts
+__webpack_require__(40);
 
 /***/ }),
 /* 13 */
@@ -44272,30 +44275,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;var _typeof = 
 })(jQuery);
 
 /***/ }),
-/* 39 */,
-/* 40 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 41 */,
-/* 42 */,
-/* 43 */,
-/* 44 */,
-/* 45 */,
-/* 46 */,
-/* 47 */,
-/* 48 */,
-/* 49 */,
-/* 50 */,
-/* 51 */,
-/* 52 */,
-/* 53 */,
-/* 54 */,
-/* 55 */,
-/* 56 */,
-/* 57 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -47833,6 +47813,46 @@ function __guardMethod__(obj, methodName, transform) {
   }
 }
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)(module)))
+
+/***/ }),
+/* 40 */
+/***/ (function(module, exports) {
+
+
+// Quiz scripts
+$(document).ready(function () {
+    if (window.location.pathname.indexOf('/quizzes') >= 0) {
+        // Check image width and height
+        $('form #coverImage').change(function () {
+            var self = this;
+            var fr = new FileReader();
+
+            fr.onload = function () {
+                var img = new Image();
+
+                img.onload = function () {
+                    if (!(img.width === 1200 && img.height === 630)) {
+                        self.value = '';
+                        $(self).addClass('is-invalid');
+                    } else {
+                        $('#coverImageContainer').attr('src', img.src);
+                        $(self).removeClass('is-invalid');
+                    }
+                };
+
+                img.src = fr.result;
+            };
+
+            fr.readAsDataURL(this.files[0]);
+        });
+    }
+});
+
+/***/ }),
+/* 41 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);

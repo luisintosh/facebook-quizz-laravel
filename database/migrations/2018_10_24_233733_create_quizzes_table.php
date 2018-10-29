@@ -22,7 +22,8 @@ class CreateQuizzesTable extends Migration
             $table->string('resultDescription');
             $table->integer('avatarPositionX')->nullable();
             $table->integer('avatarPositionY')->nullable();
-            $table->string('coverImageUrl')->nullable();
+            $table->string('coverImage');
+            $table->string('thumbImage');
             $table->boolean('enabled')->default(true);
             $table->timestamps();
         });

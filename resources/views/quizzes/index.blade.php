@@ -20,7 +20,7 @@
                     <tbody>
                     @foreach($quizzes as $quiz)
                         <tr>
-                            <td><img src="{{ $quiz->coverImageUrl }}" alt="Quiz" width="70"></td>
+                            <td><img src="{{ $quiz->thumbImage }}" alt="Quiz" width="70"></td>
                             <td>{{ $quiz->title }}</td>
                             <td>
                                 <div class="btn-group">

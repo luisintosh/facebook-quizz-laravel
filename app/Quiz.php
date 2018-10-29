@@ -23,7 +23,8 @@ class Quiz extends Model
         'resultDescription',
         'avatarPositionX',
         'avatarPositionY',
-        'coverImageUrl',
+        'coverImage',
+        'thumbImage',
         'enabled'
     ];
 

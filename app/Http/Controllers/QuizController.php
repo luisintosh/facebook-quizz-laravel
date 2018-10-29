@@ -7,8 +7,7 @@ use App\Quiz;
 use App\QuizImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Input;
-use Intervention\Image\Image;
+use Intervention\Image\ImageManagerStatic as Image;
 
 class QuizController extends Controller
 {
@@ -45,48 +44,49 @@ class QuizController extends Controller
         $success = false;
 
         try {
-            $quiz = new Quiz();
-            $quiz->title = $request->input('title');
-            $quiz->slug = $request->input('slug');
-            $quiz->description = $request->input('description');
-            $quiz->resultTitle = $request->input('resultTitle');
-            $quiz->resultDescription = $request->input('resultDescription');
-            $quiz->avatarPositionX = $request->input('avatarPositionX');
-            $quiz->avatarPositionY = $request->input('avatarPositionY');
-            $quiz->enabled = $request->input('enabled');
+            $quiz = new Quiz([
+                'title' => $request->input('title'),
+                'slug' => $request->input('slug'),
+                'description' => $request->input('description'),
+                'resultTitle' => $request->input('resultTitle'),
+                'resultDescription' => $request->input('resultDescription'),
+                'avatarPositionX' => $request->input('avatarPositionX'),
+                'avatarPositionY' => $request->input('avatarPositionY'),
+                'enabled' => $request->input('enabled'),
+            ]);
 
-            if ($quiz->save() && $request->file('coverImageUrl')->isValid()) {
+            if ($request->file('coverImage')->isValid()) {
 
-                //setting flag for condition
-                $org_img = $thm_img = true;
+                $coverPath = $quiz->getStorageDirName() . DIRECTORY_SEPARATOR . Quiz::COVER_IMAGE_NAME;
+                $thumbPath = $quiz->getStorageDirName() . DIRECTORY_SEPARATOR . Quiz::THUMB_IMAGE_NAME;
 
                 // Create dirs
-                if (! File::exists($quiz->getImageCoverPath())) {
-                    File::makeDirectory(public_path($quiz->getImageCoverPath()), 0755, true);
-                }
-                if (! File::exists($quiz->getImageThumbPath())) {
-                    File::makeDirectory(public_path($quiz->getImageThumbPath()), 0755, true);
+                if (! File::exists($quiz->getStorageDirName())) {
+                    File::makeDirectory(public_path($quiz->getStorageDirName()), 0755, true);
                 }
 
-
-                Image::make($request->file('coverImageUrl'))
+                // Cover image
+                Image::make($request->file('coverImage'))
                     ->encode('jpg', 75)
-                    ->save($quiz->getStorageDirName() . DIRECTORY_SEPARATOR . Quiz::COVER_IMAGE_NAME);
-                Image::make($request->file('coverImageUrl'))
+                    ->save($coverPath);
+
+                // Thumb image
+                Image::make($request->file('coverImage'))
                     ->fit(300, 157)
                     ->encode('jpg', 75)
-                    ->save($quiz->getStorageDirName() . DIRECTORY_SEPARATOR . Quiz::THUMB_IMAGE_NAME);
+                    ->save($thumbPath);
 
-                $quiz->coverImageUrl = $quiz->getImageCoverPath();
+                // Check results
+                if (File::exists($coverPath) && File::exists($thumbPath)) {
+                    $quiz->coverImage = asset($coverPath);
+                    $quiz->thumbImage = asset($thumbPath);
 
-                if ($quiz->save()) {
-                    $success = true;
+                    if ($quiz->save()) {
+                        $success = true;
+                    }
                 }
             }
-        } catch (\Exception $exception) {
-            $success = false;
-            var_dump($exception);
-        }
+        } catch (\Exception $exception) { }
 
         if ($request->has('save') && $success) {
             return redirect()->route('quiz.edit', [$quiz->id])
@@ -94,6 +94,9 @@ class QuizController extends Controller
         } elseif ($request->has('saveNClose') && $success) {
             return redirect()->route('quizzes.index')
                 ->with('success', __('¡Quiz guardado con éxito!'));
+        } else {
+            return redirect()->back()
+                ->with('error', __('No se ha podido guardar la imagen'));
         }
     }
 

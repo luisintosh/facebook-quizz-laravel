@@ -29,7 +29,7 @@ class StoreQuiz extends FormRequest
             'description' => 'max:150',
             'resultTitle' => 'max:150',
             'resultDescription' => 'max:150',
-            'coverImageUrl' => 'image|mimes:png,jpg,jpeg|max:2048'
+            'coverImage' => 'required|image|mimes:png,jpg,jpeg|max:2048'
         ];
     }
 }
