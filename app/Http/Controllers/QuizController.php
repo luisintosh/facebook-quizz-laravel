@@ -89,7 +89,7 @@ class QuizController extends Controller
         } catch (\Exception $exception) { }
 
         if ($request->has('save') && $success) {
-            return redirect()->route('quiz.edit', [$quiz->id])
+            return redirect()->route('quizzes.edit', [$quiz->id])
                 ->with('success', __('¡Quiz guardado con éxito!'));
         } elseif ($request->has('saveNClose') && $success) {
             return redirect()->route('quizzes.index')

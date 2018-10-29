@@ -37,6 +37,6 @@ class Quiz extends Model
     }
 
     public function getStorageDirName() {
-        return 'quizzes' . DIRECTORY_SEPARATOR . $this->id;
+        return 'images' . DIRECTORY_SEPARATOR . 'quizzes' . DIRECTORY_SEPARATOR . $this->id;
     }
 }

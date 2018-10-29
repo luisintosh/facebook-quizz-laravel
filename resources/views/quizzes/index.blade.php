@@ -20,8 +20,16 @@
                     <tbody>
                     @foreach($quizzes as $quiz)
                         <tr>
-                            <td><img src="{{ $quiz->thumbImage }}" alt="Quiz" width="70"></td>
-                            <td>{{ $quiz->title }}</td>
+                            <td>
+                                <a href="{{ $quiz->coverImage }}" target="_blank">
+                                    <img src="{{ $quiz->thumbImage }}" alt="Quiz" width="70">
+                                </a>
+                            </td>
+                            <td>
+                                <a href="{{ route('quizzes.edit', $quiz->id) }}">
+                                    {{ $quiz->title }}
+                                </a>
+                            </td>
                             <td>
                                 <div class="btn-group">
                                     <a href="{{ route('quizzes.edit', $quiz->id) }}" class="btn btn-outline-primary">

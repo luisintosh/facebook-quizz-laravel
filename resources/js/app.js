@@ -11,5 +11,10 @@ window.Swiper = require('../theme/showtracker/vendor/swiper/js/swiper');
 require('./libs/jquery.restfulizer');
 window.Dropzone = require('./libs/dropzone/dropzone');
 
+// Init all datatables
+$(document).ready(function () {
+    $('.dt').DataTable();
+});
+
 // Page scripts
 require('./scripts/quiz');
