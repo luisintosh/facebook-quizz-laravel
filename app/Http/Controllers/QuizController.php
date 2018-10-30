@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManagerStatic as Image;
 
 class QuizController extends Controller
@@ -56,25 +57,27 @@ class QuizController extends Controller
                 $thumbPath = $quiz->getStorageDirName() . DIRECTORY_SEPARATOR . Quiz::THUMB_IMAGE_NAME;
 
                 // Create dirs
-                if (! File::exists($quiz->getStorageDirName())) {
-                    File::makeDirectory(public_path($quiz->getStorageDirName()), 0755, true);
+                if (! File::exists(storage_path($quiz->getStorageDirName()))) {
+                    File::makeDirectory(storage_path($quiz->getStorageDirName()), 0755, true);
                 }
 
                 // Cover image
-                Image::make($request->file('coverImage'))
-                    ->encode('jpg', 75)
-                    ->save($coverPath);
+                $coverImage = Image::make($request->file('coverImage'))
+                    ->encode('jpg', 75);
 
                 // Thumb image
-                Image::make($request->file('coverImage'))
+                $thumbImage = Image::make($request->file('coverImage'))
                     ->fit(300, 157)
-                    ->encode('jpg', 75)
-                    ->save($thumbPath);
+                    ->encode('jpg', 75);
+
+                // Save files
+                Storage::disk('public')->put($coverPath, (string)$coverImage);
+                Storage::disk('public')->put($thumbPath, (string)$thumbImage);
 
                 // Check results
-                if (File::exists($coverPath) && File::exists($thumbPath)) {
-                    $quiz->coverImage = asset($coverPath);
-                    $quiz->thumbImage = asset($thumbPath);
+                if (Storage::disk('public')->exists($coverPath) && Storage::disk('public')->exists($thumbPath)) {
+                    $quiz->coverImage = Storage::disk('public')->url($coverPath);
+                    $quiz->thumbImage = Storage::disk('public')->url($thumbPath);
 
                     if ($quiz->save()) {
                         $success = true;
