@@ -17,13 +17,13 @@ class CreateQuizzesTable extends Migration
             $table->increments('id');
             $table->string('title');
             $table->string('slug');
-            $table->string('description');
+            $table->text('description');
             $table->string('resultTitle');
-            $table->string('resultDescription');
+            $table->text('resultDescription');
             $table->integer('avatarPositionX')->nullable();
             $table->integer('avatarPositionY')->nullable();
-            $table->string('coverImage');
-            $table->string('thumbImage');
+            $table->string('coverImage')->default('');
+            $table->string('thumbImage')->default('');
             $table->boolean('enabled')->default(true);
             $table->timestamps();
         });

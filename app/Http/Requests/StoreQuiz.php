@@ -26,9 +26,9 @@ class StoreQuiz extends FormRequest
         return [
             'title' => 'required|min:10|max:150',
             'slug' => 'required|min:5|max:100',
-            'description' => 'max:150',
+            'description' => 'required',
             'resultTitle' => 'max:150',
-            'resultDescription' => 'max:150',
+            'resultDescription' => 'required',
             'coverImage' => 'required|image|mimes:png,jpg,jpeg|max:2048'
         ];
     }

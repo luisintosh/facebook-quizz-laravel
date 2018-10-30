@@ -23,8 +23,8 @@ class Quiz extends Model
         'resultDescription',
         'avatarPositionX',
         'avatarPositionY',
-        'coverImage',
-        'thumbImage',
+        'avatarWidth',
+        'avatarHeight',
         'enabled'
     ];
 
@@ -38,5 +38,9 @@ class Quiz extends Model
 
     public function getStorageDirName() {
         return 'images' . DIRECTORY_SEPARATOR . 'quizzes' . DIRECTORY_SEPARATOR . $this->id;
+    }
+
+    public function getTemplatesDirName() {
+        return $this->getStorageDirName() . DIRECTORY_SEPARATOR . 'templates';
     }
 }

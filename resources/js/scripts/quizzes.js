@@ -32,7 +32,7 @@ $(document).ready(function () {
             const title = this.value.split('');
             let slug = [];
             title.forEach(function (element) {
-                if (/[$-/:-?{-~!"^_`\[\]]/.test(element)) {
+                if (/[$-/:-?{-~!"^_`\[\]¿]/.test(element)) {
                     element = '';
                 } else if(element === ' ') {
                     element = '-';

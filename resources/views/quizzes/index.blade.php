@@ -39,14 +39,16 @@
                                 @endif
                             </td>
                             <td>
+                                {!! Form::open()->route('quizzes.destroy', ['id'=>$quiz->id], false)->delete() !!}
                                 <div class="btn-group">
                                     <a href="{{ route('quizzes.edit', $quiz->id) }}" class="btn btn-outline-primary">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    <a href="{{ route('quizzes.destroy', $quiz->id) }}" data-method="DELETE" class="btn btn-outline-primary">
+                                    <button type="submit" class="btn btn-outline-primary">
                                         <i class="fas fa-trash"></i>
-                                    </a>
+                                    </button>
                                 </div>
+                                {!! Form::close() !!}
                             </td>
                         </tr>
                     @endforeach

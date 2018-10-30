@@ -17,7 +17,7 @@ $(document).ready(function () {
     // Datatables
     $('.dt').DataTable();
     // WYSIWYG Editor
-    $('textarea.htmlEditor').summernote({
+    $('.form-group textarea').summernote({
         height: 300
     });
 });

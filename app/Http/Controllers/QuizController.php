@@ -6,7 +6,9 @@ use App\Http\Requests\StoreQuiz;
 use App\Quiz;
 use App\QuizImage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Input;
 use Intervention\Image\ImageManagerStatic as Image;
 
 class QuizController extends Controller
@@ -44,18 +46,11 @@ class QuizController extends Controller
         $success = false;
 
         try {
-            $quiz = new Quiz([
-                'title' => $request->input('title'),
-                'slug' => $request->input('slug'),
-                'description' => $request->input('description'),
-                'resultTitle' => $request->input('resultTitle'),
-                'resultDescription' => $request->input('resultDescription'),
-                'avatarPositionX' => $request->input('avatarPositionX'),
-                'avatarPositionY' => $request->input('avatarPositionY'),
-                'enabled' => $request->input('enabled'),
-            ]);
+            DB::beginTransaction();
 
-            if ($request->file('coverImage')->isValid()) {
+            $quiz = new Quiz($request->all());
+
+            if ($quiz->save() && $request->file('coverImage')->isValid()) {
 
                 $coverPath = $quiz->getStorageDirName() . DIRECTORY_SEPARATOR . Quiz::COVER_IMAGE_NAME;
                 $thumbPath = $quiz->getStorageDirName() . DIRECTORY_SEPARATOR . Quiz::THUMB_IMAGE_NAME;
@@ -83,10 +78,15 @@ class QuizController extends Controller
 
                     if ($quiz->save()) {
                         $success = true;
+                        DB::commit();
                     }
                 }
             }
-        } catch (\Exception $exception) { }
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            return back()->withInput()
+                ->with('error', $exception->getMessage());
+        }
 
         if ($request->has('save') && $success) {
             return redirect()->route('quizzes.edit', [$quiz->id])
@@ -95,8 +95,8 @@ class QuizController extends Controller
             return redirect()->route('quizzes.index')
                 ->with('success', __('¡Quiz guardado con éxito!'));
         } else {
-            return redirect()->back()
-                ->with('error', __('No se ha podido guardar la imagen'));
+            return back()->withInput()
+                ->with('error', __('No se ha podido guardar el Quiz'));
         }
     }
 
@@ -131,18 +131,32 @@ class QuizController extends Controller
      */
     public function update(Request $request, Quiz $quiz)
     {
-        //
+        $quiz->update($request->all());
+        $success = $quiz->save();
+
+        if ($request->has('save') && $success) {
+            return redirect()->route('quizzes.edit', [$quiz->id])
+                ->with('success', __('¡Quiz guardado con éxito!'));
+        } elseif ($request->has('saveNClose') && $success) {
+            return redirect()->route('quizzes.index')
+                ->with('success', __('¡Quiz guardado con éxito!'));
+        } else {
+            return back()->withInput()
+                ->with('error', __('No se ha podido guardar el Quiz'));
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Quiz  $quiz
+     * @param  \App\Quiz $quiz
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function destroy(Quiz $quiz)
     {
-        //
+        $quiz->delete();
+        return redirect()->route('quizzes.index');
     }
 
     public function uploadImage(Request $request) {
@@ -151,20 +165,43 @@ class QuizController extends Controller
             'id' => 'required|integer'
         ]);
 
-        if ($request->file('file')->isValid()) {
+        $quiz = Quiz::findOrFail($request->input('id'));
 
-            $fileExt = $request->file('file')->extension();
-            $fileSize = $request->file('file')->getSize();
-            $fileStoredPath = $request->file('file')->storeAs('quizzes'.DIRECTORY_SEPARATOR.'5', time().$fileExt);
+        if ($quiz && $request->file('file')->isValid()) {
 
-            $quizImage = new QuizImage([
-                'quiz_id' => $request->input('id'),
-                'imageUrl' => asset($fileStoredPath),
-                'imageSize' => $fileSize
-            ]);
-            $quizImage->save();
+            $templatePath = $quiz->getTemplatesDirName() . DIRECTORY_SEPARATOR
+                . round(microtime(true) * 1000) . '.png';
 
-            return response('success', 200);
+            // Create dirs
+            if (! File::exists($quiz->getTemplatesDirName())) {
+                File::makeDirectory(public_path($quiz->getTemplatesDirName()), 0755, true);
+            }
+
+            // template image
+            $image = Image::make($request->file('file'))
+                ->encode('png')
+                ->save($templatePath);
+
+            $fileSize = $image->filesize();
+
+            if (File::exists($templatePath)) {
+                $quizImage = new QuizImage([
+                    'quiz_id' => $quiz->id,
+                    'imageUrl' => asset($templatePath),
+                    'imageSize' => $fileSize
+                ]);
+
+                if ($quizImage->save()) {
+                    return response('success', 200);
+                }
+            }
+
+            return response('error', 500);
         }
+    }
+
+    public function destroyImage(QuizImage $quizImage) {
+        $quizImage->delete();
+        return back();
     }
 }

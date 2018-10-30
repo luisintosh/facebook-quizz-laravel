@@ -23447,7 +23447,7 @@ $(document).ready(function () {
     // Datatables
     $('.dt').DataTable();
     // WYSIWYG Editor
-    $('textarea.htmlEditor').summernote({
+    $('.form-group textarea').summernote({
         height: 300
     });
 });
@@ -73079,7 +73079,7 @@ $(document).ready(function () {
             var title = this.value.split('');
             var slug = [];
             title.forEach(function (element) {
-                if (/[$-/:-?{-~!"^_`\[\]]/.test(element)) {
+                if (/[$-/:-?{-~!"^_`\[\]¿]/.test(element)) {
                     element = '';
                 } else if (element === ' ') {
                     element = '-';
