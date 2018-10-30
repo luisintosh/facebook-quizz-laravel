@@ -158,6 +158,7 @@ class QuizController extends Controller
      */
     public function destroy(Quiz $quiz)
     {
+        $quiz->images()->delete();
         $quiz->delete();
         return redirect()->route('quizzes.index');
     }
@@ -180,17 +181,19 @@ class QuizController extends Controller
                 File::makeDirectory(public_path($quiz->getTemplatesDirName()), 0755, true);
             }
 
-            // template image
-            $image = Image::make($request->file('file'))
-                ->encode('png')
-                ->save($templatePath);
+            // Template image
+            $templateImage = Image::make($request->file('file'))
+                ->encode('png');
 
-            $fileSize = $image->filesize();
+            // Save file
+            Storage::disk('public')->put($templatePath, (string)$templateImage);
 
-            if (File::exists($templatePath)) {
+            $fileSize = $templateImage->filesize();
+
+            if (Storage::disk('public')->exists($templatePath)) {
                 $quizImage = new QuizImage([
                     'quiz_id' => $quiz->id,
-                    'imageUrl' => asset($templatePath),
+                    'imageUrl' => Storage::disk('public')->url($templatePath),
                     'imageSize' => $fileSize
                 ]);
 
