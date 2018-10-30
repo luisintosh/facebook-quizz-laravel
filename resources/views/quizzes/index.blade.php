@@ -27,7 +27,7 @@
                                 </a>
                             </td>
                             <td>
-                                <a href="{{ route('quizzes.edit', $quiz->id) }}">
+                                <a href="{{ route('quizzes.show', $quiz->id) }}" class="text-dark">
                                     {{ $quiz->title }}
                                 </a>
                             </td>
