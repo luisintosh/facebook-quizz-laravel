@@ -109,9 +109,11 @@ class QuizController extends Controller
      * @param  \App\Quiz  $quiz
      * @return \Illuminate\Http\Response
      */
-    public function show(Quiz $quiz)
+    public function show($slug)
     {
-        return view('quizzes.show', ['quiz' => $quiz]);
+        $quizzes = Quiz::all();
+        $quiz = Quiz::where('slug', $slug)->firstOrFail();
+        return view('quizzes.show', ['quizzes' => $quizzes, 'quiz' => $quiz]);
     }
 
     /**

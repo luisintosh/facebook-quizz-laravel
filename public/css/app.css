@@ -17714,7 +17714,45 @@ a.text-dark:focus {
   }
 }
 
+@media (max-width: 767.98px) {
+  .container {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+}
+
 body {
   background-color: #F4F4F4;
+}
+
+a:hover {
+  text-decoration: none !important;
+}
+
+.postItem .card-info a {
+  color: #000;
+  text-decoration: none !important;
+}
+
+.postItem .card-info a:hover {
+  color: #007bff;
+  text-decoration: none !important;
+}
+
+figure.hotQuiz {
+  position: relative;
+}
+
+figure.hotQuiz .hotQuizNumber {
+  background: #DC3545;
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  text-align: center;
+  color: #fff;
+  font-weight: bold;
+  font-size: 1.4rem;
 }
 

@@ -43,4 +43,11 @@ class Quiz extends Model
     public function getTemplatesDirName() {
         return $this->getStorageDirName() . DIRECTORY_SEPARATOR . 'templates';
     }
+
+    /**
+     * HOT Quizzes
+     */
+    public static function random($limit = 10) {
+        return Quiz::where('enabled', 1)->inRandomOrder()->limit($limit)->get();
+    }
 }

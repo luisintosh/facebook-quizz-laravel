@@ -20,6 +20,9 @@ Route::get('auth/{provider}', 'Auth\SocialAuthController@redirectToProvider')->n
 Route::get('auth/{provider}/callback', 'Auth\SocialAuthController@handleProviderCallback');
 
 // Quizzes
-Route::resource('quizzes', 'QuizController');
+Route::resource('quizzes', 'QuizController')->except(['show']);
 Route::post('quizzes/image/upload', 'QuizController@uploadImage')->name('quizzes.image.upload');
 Route::delete('quizzes/image/{quizImage}', 'QuizController@destroyImage')->name('quizzes.image.destroy');
+
+// View Quiz
+Route::get('quiz/{slug}', 'QuizController@show')->name('quiz.show');

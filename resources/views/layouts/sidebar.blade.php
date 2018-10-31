@@ -1,5 +1,5 @@
 {{--SIDEBAR AD 1--}}
-<div class="card sidebarAd mb-4">
+<div class="card sidebarAd mb-4 shadow-sm rounded">
     <div class="card-body">
         ## AD ##
     </div>
@@ -13,20 +13,24 @@
 </div>
 
 {{--HOT QUIZZES--}}
-<div class="card hotQuizzes mb-4">
-    <h4><i class="fas fa-fire"></i> Top Quizzes</h4>
+<div class="card hotQuizzes mb-4 shadow-sm rounded">
     <div class="card-body">
-        @foreach($hotQuizzes as $index => $hotQuizz)
-            <figure class="hotQuiz">
-                <img src="{{ $hotQuizz->thumbPath }}" alt="{{ $hotQuizz->title }}" class="img-fluid">
-                <span class="hotQuizNumber">{{ $index+1 }}</span>
-            </figure>
-            <span class="hotQuizTitle font-weight-bold">{{ $quiz->title }}</span>
+        <h4 class="text-danger mb-4"><i class="fas fa-fire"></i> Top Quizzes</h4>
+        @foreach(\App\Quiz::random() as $index => $hotQuizz)
+            <a href="#">
+                <figure class="hotQuiz">
+                    <img src="{{ $hotQuizz->thumbImage }}" alt="{{ $hotQuizz->title }}" class="img-fluid">
+                    <span class="hotQuizNumber">{{ $index+1 }}</span>
+                </figure>
+                <span class="hotQuizTitle text-dark font-weight-bold">{{ $hotQuizz->title }}</span>
+            </a>
+            <hr>
         @endforeach
     </div>
 </div>
+
 {{--SIDEBAR AD 2--}}
-<div class="card sidebarAd mb-4">
+<div class="card sidebarAd mb-4 shadow-sm rounded">
     <div class="card-body">
         ## AD ##
     </div>
