@@ -24,5 +24,8 @@ Route::resource('quizzes', 'QuizController')->except(['show']);
 Route::post('quizzes/image/upload', 'QuizController@uploadImage')->name('quizzes.image.upload');
 Route::delete('quizzes/image/{quizImage}', 'QuizController@destroyImage')->name('quizzes.image.destroy');
 
+// Load random quizzes
+Route::get('quizzes/random', 'QuizController@random')->name('quizzes.random');
+
 // View Quiz
 Route::get('quiz/{slug}', 'QuizController@show')->name('quiz.show');

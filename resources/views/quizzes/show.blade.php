@@ -24,30 +24,9 @@
                 </div>
             </div>
 
-            @foreach(\App\Quiz::random(15) as $quizRandom)
-                <div class="card postItem mb-4 shadow-sm rounded">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-sm-4">
-                                <a href="{{ route('quiz.show', $quizRandom->slug) }}">
-                                    <img src="{{ $quizRandom->thumbImage }}" alt="{{ $quizRandom->title }}" class="card-img-top mb-3">
-                                </a>
-                                <a href="{{ route('quiz.show', $quizRandom->slug) }}" class="btn btn-block btn-outline-danger">
-                                    <i class="fas fa-star"></i> {{ __('Tomar Quiz') }}
-                                </a>
-                            </div>
-                            <div class="col-sm-8 card-info">
-                                <a href="{{ route('quiz.show', $quizRandom->slug) }}">
-                                    <h5 class="card-title">{{ $quizRandom->title }}</h5>
-                                    <p class="card-text">
-                                        {{ $quizRandom->description }}
-                                    </p>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            @endforeach
+            <div class="quizContainer">
+                @include('quizzes.random-list')
+            </div>
         </div>
         <div class="col-md-4">
             @include('layouts.sidebar')

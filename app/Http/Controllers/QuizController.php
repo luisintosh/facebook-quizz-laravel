@@ -26,6 +26,15 @@ class QuizController extends Controller
     }
 
     /**
+     * Display a random list of quizzes without layout to infinite scroll function
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function random()
+    {
+        return view('quizzes.random-list');
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -165,6 +174,12 @@ class QuizController extends Controller
         return redirect()->route('quizzes.index');
     }
 
+    /**
+     * Upload an image and associate to a quiz
+     * @param Request $request
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     * @throws \Illuminate\Validation\ValidationException
+     */
     public function uploadImage(Request $request) {
         $this->validate($request, [
             'file' => 'required|image|mimes:png|max:2048',
@@ -208,6 +223,12 @@ class QuizController extends Controller
         }
     }
 
+    /**
+     * Destroy an image from a quiz
+     * @param QuizImage $quizImage
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
+     */
     public function destroyImage(QuizImage $quizImage) {
         $quizImage->delete();
         return back();

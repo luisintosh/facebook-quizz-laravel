@@ -11,6 +11,7 @@ window.Swiper = require('../theme/showtracker/vendor/swiper/js/swiper');
 require('./libs/jquery.restfulizer');
 window.Dropzone = require('./libs/dropzone/dropzone');
 require('summernote/dist/summernote-bs4.min');
+require('./libs/infinite-scroll.pkgd');
 
 // Init jquery plugins
 $(document).ready(function () {
@@ -24,3 +25,4 @@ $(document).ready(function () {
 
 // Page scripts
 require('./scripts/quizzes');
+require('./scripts/loadMoreQuizzes');
