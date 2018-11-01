@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable
 {
@@ -29,7 +30,22 @@ class User extends Authenticatable
     ];
 
 
-    public function getStorageDirName() {
+    public function getStorageDirName()
+    {
         return 'images' . DIRECTORY_SEPARATOR . 'users' . DIRECTORY_SEPARATOR . $this->id;
+    }
+
+    public static function isAdminUser()
+    {
+        $isAdminUser = false;
+
+        $adminUsers = Settings::get('users_admin');
+        if(empty($adminUsers)) {
+            return true;
+        }
+
+        $adminUsers = explode(',', $adminUsers);
+
+        return in_array(Auth::user()->email, $adminUsers);
     }
 }

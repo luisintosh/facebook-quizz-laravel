@@ -9,6 +9,8 @@
 
     @include('layouts.seo')
 
+    <link rel="icon" type="image/png" href="{{ asset('images/favicon.png') }}" />
+
     <!-- Fonts -->
     <link rel="dns-prefetch" href="https://fonts.googleapis.com">
     <link rel="dns-prefetch" href="https://use.fontawesome.com">
@@ -45,13 +47,15 @@
 
                     </ul>
                     <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a href="{{ route('quizzes.index') }}" class="nav-link font-weight-bold mr-3">Quizzes</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('settings.index') }}" class="nav-link font-weight-bold mr-3">{{ __('Configuraciones') }}</a>
-                        </li>
-                        @if (Auth::check())
+                        @auth()
+                            @if(\App\User::isAdminUser())
+                                <li class="nav-item">
+                                    <a href="{{ route('quizzes.index') }}" class="nav-link font-weight-bold mr-3">Quizzes</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('settings.index') }}" class="nav-link font-weight-bold mr-3">{{ __('Configuraciones') }}</a>
+                                </li>
+                            @endif
                             <li class="nav-item">
                                 <a class="nav-link font-weight-bold mr-3" href="{{ route('logout') }}"
                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
