@@ -45,8 +45,12 @@ class SocialAuthController extends Controller
                 'email' => $social_user->email,
                 'password' => encrypt(str_random(10)),
                 'avatar' => $social_user->avatar,
-                'gender' => isset($social_user->user['gender']) ? $social_user->user['gender'] : '',
-                'birthday' => isset($social_user->user['birthday']) ? date('Y-m-d', strtotime($social_user->user['birthday'])) : '',
+                'gender' => isset($social_user->user['gender'])
+                    ? $social_user->user['gender']
+                    : 'male',
+                'birthday' => isset($social_user->user['birthday'])
+                    ? date('Y-m-d', strtotime($social_user->user['birthday']))
+                    : date('Y-m-d 00:00:00', time())
             ]);
 
             return $this->authAndRedirect($user); // Login y redirección
