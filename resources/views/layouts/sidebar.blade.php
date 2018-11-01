@@ -42,3 +42,10 @@
         {{ \App\Settings::get('google_adsense') }}
     </div>
 </div>
+
+{{--PRIVACY POLICY--}}
+<div class="card mb-4 shadow-sm rounded">
+    <div class="card-body">
+        <small class="text-muted"><a href="{{ route('privacy') }}">{{ __('Políticas de privacidad') }}</a></small>
+    </div>
+</div>
