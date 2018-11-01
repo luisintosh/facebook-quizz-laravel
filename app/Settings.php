@@ -31,7 +31,6 @@ class Settings extends Model
         ['text', 'users_admin', 'Correos de usuarios administradores, separados por ","'],
         ['---'],
         ['text', 'facebook_page', 'URL de la página de facebook'],
-        ['text', 'facebook_appid', 'ID de la app en facebook'],
         ['text', 'addthis_code', 'Código del widget AddThis'],
         ['---'],
         ['text', 'google_analytics', 'Código de Google Analytics (ejemplo: UA-XXXXX-X)'],

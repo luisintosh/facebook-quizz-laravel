@@ -107,7 +107,7 @@
         var js, fjs = d.getElementsByTagName(s)[0];
         if (d.getElementById(id)) return;
         js = d.createElement(s); js.id = id;
-        js.src = 'https://connect.facebook.net/es_ES/sdk.js#xfbml=1&version=v3.2&appId={{ \App\Settings::get('facebook_appid') }}&autoLogAppEvents=1';
+        js.src = 'https://connect.facebook.net/es_ES/sdk.js#xfbml=1&version=v3.2&appId={{ env('FACEBOOK_CLIENT_ID') }}&autoLogAppEvents=1';
         fjs.parentNode.insertBefore(js, fjs);
       }(document, 'script', 'facebook-jssdk'));</script>
     <!-- Go to www.addthis.com/dashboard to customize your tools -->
