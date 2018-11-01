@@ -18,8 +18,9 @@ class SocialAuthController extends Controller
         Session::put('PREVIOUS_URL', URL::previous());
 
         return Socialite::driver($provider)
-            ->scopes(['user_birthday', 'user_gender'])
-            ->redirect();
+            ->fields([
+                'first_name', 'last_name', 'email', 'gender', 'birthday'
+            ])->redirect();
     }
 
     // Obtaining user information
@@ -44,8 +45,8 @@ class SocialAuthController extends Controller
                 'email' => $social_user->email,
                 'password' => encrypt(str_random(10)),
                 'avatar' => $social_user->avatar,
-                'gender' => $social_user->user['gender'],
-                'birthday' => date('Y-m-d', strtotime($social_user->user['birthday'])),
+                'gender' => isset($social_user->user['gender']) ? $social_user->user['gender'] : '',
+                'birthday' => isset($social_user->user['birthday']) ? date('Y-m-d', strtotime($social_user->user['birthday'])) : '',
             ]);
 
             return $this->authAndRedirect($user); // Login y redirección
