@@ -211,6 +211,14 @@ class QuizController extends Controller
     {
         $quiz = Quiz::where([['enabled', '=', true], ['slug', '=', $slug]])->firstOrFail();
         $userQuiz = UserQuiz::findOrFail($id);
+
+        // Replace helpers
+        $quiz->resultTitle = str_replace('USERNAME', Auth::user()->name, $quiz->resultTitle);
+        $quiz->resultDescription = str_replace('USERNAME', Auth::user()->name, $quiz->resultDescription);
+
+        $quiz->resultTitle = str_replace('USERLASTNAME', Auth::user()->lastname, $quiz->resultTitle);
+        $quiz->resultDescription = str_replace('USERLASTNAME', Auth::user()->lastname, $quiz->resultDescription);
+
         return view('quizzes.result', ['quiz' => $quiz, 'userQuiz' => $userQuiz]);
     }
 

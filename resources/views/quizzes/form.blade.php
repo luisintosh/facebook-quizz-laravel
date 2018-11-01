@@ -29,6 +29,11 @@
                     </div>
                     <hr>
                     <div class="row">
+                        <div class="col-lg-12">
+                            <div class="alert alert-info">
+                                {{ __('Puedes usar las variables: USERNAME, USERLASTNAME') }}
+                            </div>
+                        </div>
                         <div class="col-md-6">
                             {!! Form::text('title', __('Título'), $quiz->title)
                                 ->attrs(['maxlength' => 150])
@@ -39,7 +44,7 @@
                                 ->help(__('URL de la página')) !!}
 
                             {!! Form::textarea('description', __('Descripción'), $quiz->description)
-                                ->attrs(['maxlength' => 150])
+                                ->attrs(['maxlength' => 300])
                                 ->help(__('Descripción del Quiz, SEO y página')) !!}
                         </div>
                         <div class="col-md-6">
@@ -48,7 +53,7 @@
                                 ->help(__('Este título se mostrará en el resultado del Quiz')) !!}
 
                             {!! Form::textarea('resultDescription', __('Descripción del resultado'), $quiz->resultDescription)
-                                ->attrs(['maxlength' => 150])
+                                ->attrs(['maxlength' => 300])
                                 ->help(__('Esta descripción se mostrará en el resultado del Quiz')) !!}
                         </div>
                     </div>

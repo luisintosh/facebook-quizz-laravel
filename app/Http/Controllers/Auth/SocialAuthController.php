@@ -28,7 +28,7 @@ class SocialAuthController extends Controller
     {
         // Obtaining user data
         $social_user = Socialite::driver($provider)
-            ->fields(['name', 'email', 'gender', 'birthday'])
+            ->fields(['name', 'first_name', 'last_name', 'email', 'gender', 'birthday'])
             ->user();
 
         // Check if the user exists
@@ -41,7 +41,8 @@ class SocialAuthController extends Controller
             $user = User::create([
                 'facebookId' => $social_user->id,
                 'facebookToken' => $social_user->token,
-                'name' => $social_user->name,
+                'name' => $social_user->user['first_name'],
+                'lastname' => $social_user->user['last_name'],
                 'email' => $social_user->email,
                 'avatar' => $social_user->avatar,
                 'password' => 'nope',
