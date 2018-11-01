@@ -43,8 +43,8 @@ class SocialAuthController extends Controller
                 'facebookToken' => $social_user->token,
                 'name' => $social_user->name,
                 'email' => $social_user->email,
-                'password' => 'nope',
                 'avatar' => $social_user->avatar,
+                'password' => 'nope',
                 'gender' => isset($social_user->user['gender'])
                     ? $social_user->user['gender']
                     : 'male',
