@@ -27,4 +27,9 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+
+    public function getStorageDirName() {
+        return 'images' . DIRECTORY_SEPARATOR . 'users' . DIRECTORY_SEPARATOR . $this->id;
+    }
 }

@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreQuiz;
 use App\Quiz;
 use App\QuizImage;
+use App\User;
+use App\UserQuiz;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Input;
@@ -14,6 +17,16 @@ use Intervention\Image\ImageManagerStatic as Image;
 
 class QuizController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth', ['except' => ['random', 'show', 'doQuiz', 'quizResult']]);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -124,13 +137,81 @@ class QuizController extends Controller
         return view('quizzes.show', ['quiz' => $quiz]);
     }
 
-    public function doQuiz($slug, $id)
+    public function doQuiz($slug)
+    {
+        if (! Auth::check()) {
+            return redirect()->route('social.auth', ['provider' => 'facebook']);
+        }
+        $quiz = Quiz::where([['enabled', '=', true], ['slug', '=', $slug]])->firstOrFail();
+        $user = User::findOrFail(Auth::id());
+        $success = false;
+        $errorMsg = __('Oops! Tuvimos un problema al calcular tu resultado');
+
+        // Place user avatar on cover image
+        try{
+            // Random image url
+            $randomImage = $quiz->images()->inRandomOrder()->firstOrFail();
+            $randomImage = $randomImage->imageUrl;
+            // Route where we will save the image
+            $resultPath = $user->getStorageDirName() . DIRECTORY_SEPARATOR
+                . round(microtime(true) * 1000) . '.jpg';
+
+            // Create dirs
+            if (! File::exists(storage_path($user->getStorageDirName()))) {
+                File::makeDirectory(storage_path($user->getStorageDirName()), 0755, true);
+            }
+
+            // Build the user's avatar url
+            $avatarUrl = "https://graph.facebook.com/v3.0/{$user->facebookId}/picture?width=1000";
+
+            // Avatar image
+            $avatarImage = Image::make($avatarUrl)
+                ->resize($quiz->avatarWidth, $quiz->avatarHeight)
+                ->stream();
+
+            // Base image
+            $baseImage = Image::make($randomImage)
+                ->insert($avatarImage, 'center', $quiz->avatarPositionX, $quiz->avatarPositionX)
+                ->stream();
+
+            // Result image
+            $resultImage = Image::make($baseImage)
+                ->insert($randomImage, 'top-left', 0, 0)
+                ->encode('jpg', 75);
+
+            // Save files
+            Storage::disk('public')->put($resultPath, (string)$resultImage);
+
+            // Check results
+            if (Storage::disk('public')->exists($resultPath)) {
+                $userQuiz = new UserQuiz([
+                    'quiz_id' => $quiz->id,
+                    'user_id' => $user->id,
+                    'imageUrl' => Storage::disk('public')->url($resultPath),
+                    'imageSize' => $resultImage->filesize(),
+                ]);
+
+                if ($userQuiz->save()) {
+                    $success = true;
+                }
+            }
+        } catch (\Exception $exception) {
+            $errorMsg = $exception->getMessage();
+            dd($exception);
+        }
+
+        if ($success) {
+            return redirect()->route('quiz.result', ['slug' => $slug, 'id' => $userQuiz->id]);
+        } else {
+            return back()->with('error', $errorMsg);
+        }
+    }
+
+    public function quizResult($slug, $id)
     {
         $quiz = Quiz::where([['enabled', '=', true], ['slug', '=', $slug]])->firstOrFail();
-
-        // place user avatar on cover image
-
-        return view('quizzes.show', ['quiz' => $quiz]);
+        $userQuiz = UserQuiz::findOrFail($id);
+        return view('quizzes.result', ['quiz' => $quiz, 'userQuiz' => $userQuiz]);
     }
 
     /**

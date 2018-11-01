@@ -89,9 +89,19 @@
         </div>
     </footer>
 
+    <div id="fb-root"></div>
 
     <!--  Scripts-->
     <script src="{{ asset('js/app.js') }}?v={{ filemtime( resource_path('js/app.js') ) }}"></script>
     @stack('scripts')
+    <script>(function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = 'https://connect.facebook.net/es_ES/sdk.js#xfbml=1&version=v3.2&appId=868908316646661&autoLogAppEvents=1';
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));</script>
+    <!-- Go to www.addthis.com/dashboard to customize your tools -->
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5bda707c9701e235"></script>
 </body>
 </html>

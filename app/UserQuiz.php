@@ -19,4 +19,11 @@ class UserQuiz extends Model
         'imageSize'
     ];
 
+    /**
+     * Get the related quiz
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function quiz() {
+        return $this->hasOne('App\Quiz');
+    }
 }

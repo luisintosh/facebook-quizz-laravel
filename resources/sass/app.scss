@@ -53,6 +53,7 @@ a:hover {
     }
 }
 
+// Hot Quizzes style
 figure.hotQuiz {
     position: relative;
 
@@ -68,4 +69,12 @@ figure.hotQuiz {
         font-weight: bold;
         font-size: 1.4rem;
     }
+}
+
+// Share Quiz
+.shareButtonsBlock {
+    background-image: url("images/backgrounds/reactions.gif");
+    background-position: initial;
+    -webkit-background-size: cover;
+    background-size: cover;
 }

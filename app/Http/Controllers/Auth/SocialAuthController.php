@@ -6,31 +6,37 @@ use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\URL;
 use Laravel\Socialite\Facades\Socialite;
 
 class SocialAuthController extends Controller
 {
-    // Metodo encargado de la redireccion a Facebook
+    // Redirecting to Facebook
     public function redirectToProvider($provider)
     {
+        Session::put('PREVIOUS_URL', URL::previous());
+
         return Socialite::driver($provider)
             ->scopes(['user_birthday', 'user_gender'])
             ->redirect();
     }
 
-    // Metodo encargado de obtener la información del usuario
+    // Obtaining user information
     public function handleProviderCallback($provider)
     {
-        // Obtenemos los datos del usuario
+        // Obtaining user data
         $social_user = Socialite::driver($provider)
             ->fields(['name', 'email', 'gender', 'birthday'])
             ->user();
 
-        // Comprobamos si el usuario ya existe
+        // Check if the user exists
         if ($user = User::where('email', $social_user->email)->first()) {
+            $user->name = $social_user->name;
+            $user->save();
             return $this->authAndRedirect($user); // Login y redirección
         } else {
-            // En caso de que no exista creamos un nuevo usuario con sus datos.
+            // In case it does not exist we create a new user with your data.
             $user = User::create([
                 'facebookId' => $social_user->id,
                 'facebookToken' => $social_user->token,
@@ -51,6 +57,7 @@ class SocialAuthController extends Controller
     {
         Auth::login($user);
 
-        return redirect()->intended('/#');
+        $redirectUrl = Session::has('PREVIOUS_URL') ? Session::get('PREVIOUS_URL') : '/#';
+        return redirect()->intended($redirectUrl);
     }
 }

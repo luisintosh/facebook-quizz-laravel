@@ -17756,3 +17756,9 @@ figure.hotQuiz .hotQuizNumber {
   font-size: 1.4rem;
 }
 
+.shareButtonsBlock {
+  background-image: url(/images/reactions.gif?2a08dd98bb77ea0cc3808d6d11b8fd1c);
+  background-position: initial;
+  background-size: cover;
+}
+
