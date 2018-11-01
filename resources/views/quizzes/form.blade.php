@@ -1,5 +1,10 @@
 @extends('layouts.app')
 
+@section('meta_title', \App\Settings::get('site_name'))
+@section('meta_description', \App\Settings::get('site_description'))
+@section('meta_image', asset('images/site/web.jpg'))
+@section('meta_url', route('quizzes.index'))
+
 @section('content')
     <div class="card">
         <div class="card-body">

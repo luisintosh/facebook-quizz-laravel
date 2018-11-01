@@ -1,5 +1,10 @@
 @extends('layouts.app')
 
+@section('meta_title', $quiz->title)
+@section('meta_description', $quiz->description)
+@section('meta_image', $quiz->coverImage)
+@section('meta_url', route('quiz.show', ['slug' => $quiz->slug]))
+
 @section('content')
     <div class="row">
         <div class="col-md-8">
@@ -22,7 +27,7 @@
                         </div>
                     </div>
                     <div class="ad text-center mb-4">
-                        ## AD ##
+                        {{ \App\Settings::get('google_adsense') }}
                     </div>
                 </div>
             </div>

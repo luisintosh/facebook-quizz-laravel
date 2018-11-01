@@ -1,14 +1,21 @@
 {{--SIDEBAR AD 1--}}
 <div class="card sidebarAd mb-4 shadow-sm rounded">
     <div class="card-body">
-        ## AD ##
+        {{ \App\Settings::get('google_adsense') }}
     </div>
 </div>
 
 {{--SOCIAL NETWORKS--}}
 <div class="socialNetworks mb-4">
     <div class="facebook">
-        ## FACEBOOK LIKE BOX ##
+        @if(\App\Settings::get('facebook_page', false))
+            <div class="fb-page" data-href="{{ App\Settings::get('facebook_page') }}"
+                 data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true">
+                <blockquote cite="{{ App\Settings::get('facebook_page') }}" class="fb-xfbml-parse-ignore">
+                    <a href="{{ App\Settings::get('facebook_page') }}">{{ App\Settings::get('site_name') }}</a>
+                </blockquote>
+            </div>
+        @endif
     </div>
 </div>
 
@@ -32,6 +39,6 @@
 {{--SIDEBAR AD 2--}}
 <div class="card sidebarAd mb-4 shadow-sm rounded">
     <div class="card-body">
-        ## AD ##
+        {{ \App\Settings::get('google_adsense') }}
     </div>
 </div>

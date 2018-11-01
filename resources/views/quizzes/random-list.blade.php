@@ -19,3 +19,9 @@
         </div>
     </div>
 @endforeach
+
+<div class="card postItem mb-4 shadow-sm rounded">
+    <div class="card-body">
+        {{ \App\Settings::get('google_adsense') }}
+    </div>
+</div>

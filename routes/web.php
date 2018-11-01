@@ -33,3 +33,6 @@ Route::get('quiz/{slug}', 'QuizController@show')->name('quiz.show');
 Route::post('quiz/{slug}', 'QuizController@doQuiz')->name('quiz.do-quiz');
 // Quiz result
 Route::get('quiz/{slug}/{id}', 'QuizController@quizResult')->name('quiz.result');
+
+// Settings
+Route::resource('settings', 'SettingsController')->except(['show', 'destroy', 'update']);
