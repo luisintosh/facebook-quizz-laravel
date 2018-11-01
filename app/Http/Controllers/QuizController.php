@@ -120,9 +120,17 @@ class QuizController extends Controller
      */
     public function show($slug)
     {
-        $quizzes = Quiz::all();
-        $quiz = Quiz::where('slug', $slug)->firstOrFail();
-        return view('quizzes.show', ['quizzes' => $quizzes, 'quiz' => $quiz]);
+        $quiz = Quiz::where([['enabled', '=', true], ['slug', '=', $slug]])->firstOrFail();
+        return view('quizzes.show', ['quiz' => $quiz]);
+    }
+
+    public function doQuiz($slug, $id)
+    {
+        $quiz = Quiz::where([['enabled', '=', true], ['slug', '=', $slug]])->firstOrFail();
+
+        // place user avatar on cover image
+
+        return view('quizzes.show', ['quiz' => $quiz]);
     }
 
     /**

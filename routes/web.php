@@ -29,3 +29,5 @@ Route::get('quizzes/random', 'QuizController@random')->name('quizzes.random');
 
 // View Quiz
 Route::get('quiz/{slug}', 'QuizController@show')->name('quiz.show');
+// Do Quiz
+Route::get('quiz/{slug}/{id}', 'QuizController@doQuiz')->name('quiz.doQuiz');
