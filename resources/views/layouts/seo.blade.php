@@ -34,3 +34,5 @@
   "articleBody": "@yield('meta_description')"
 }
 </script>
+
+<meta name="google-site-verification" content="{{ \App\Settings::get('google_site_verification') }}" />
