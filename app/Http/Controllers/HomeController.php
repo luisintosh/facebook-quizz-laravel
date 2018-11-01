@@ -27,4 +27,14 @@ class HomeController extends Controller
         $quizzes = Quiz::all();
         return view('home', ['quizzes' => $quizzes]);
     }
+
+    /**
+     * Show the application privacy policy.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function privacy()
+    {
+        return view('privacy');
+    }
 }

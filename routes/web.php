@@ -15,6 +15,9 @@ Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('home');
 
+// Privacy police
+Route::get('privacy', 'HomeController@privacy')->name('privacy');
+
 // Social Auth
 Route::get('auth/{provider}', 'Auth\SocialAuthController@redirectToProvider')->name('social.auth');
 Route::get('auth/{provider}/callback', 'Auth\SocialAuthController@handleProviderCallback');
