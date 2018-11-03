@@ -32,7 +32,7 @@
                                 </a>
                             </td>
                             <td>
-                                <a href="{{ route('quizzes.show', $quiz->id) }}" class="text-dark">
+                                <a href="{{ route('quiz.show', $quiz->slug) }}" class="text-dark">
                                     {{ $quiz->title }}
                                 </a>
                             </td>
