@@ -266,6 +266,7 @@ class QuizController extends Controller
      */
     public function destroy(Quiz $quiz)
     {
+        UserQuiz::where('quiz_id', $quiz->id)->delete();
         $quiz->images()->delete();
         $quiz->delete();
         return redirect()->route('quizzes.index');
