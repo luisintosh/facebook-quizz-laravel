@@ -129,6 +129,9 @@
                         <input name="save" type="submit" class="btn btn-success" value="{{ __('Guardar') }}">
                         <input name="saveNClose" type="submit" class="btn btn-primary" value="{{ __('Guardar y cerrar') }}">
                         <a href="{{ route('quizzes.index') }}" class="btn btn-secondary">{{ __('Cancelar') }}</a>
+                        @unless( empty($quiz->slug) )
+                        <a href="{{ route('quiz.show', $quiz->slug) }}" class="btn btn-secondary" target="_blank">{{ __('Ver') }}</a>
+                        @endunless
                     </div>
                 </form>
                 <hr>

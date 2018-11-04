@@ -25,7 +25,7 @@ class StoreQuiz extends FormRequest
     {
         return [
             'title' => 'required|min:10|max:150',
-            'slug' => 'required|min:5|max:100',
+            'slug' => 'required|unique:quizzes|min:5|max:100',
             'description' => 'required|max:300',
             'resultTitle' => 'max:150',
             'resultDescription' => 'required|max:300',

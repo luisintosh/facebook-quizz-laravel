@@ -79,9 +79,9 @@ class QuizController extends Controller
                 $thumbPath = $quiz->getStorageDirName() . DIRECTORY_SEPARATOR . Quiz::THUMB_IMAGE_NAME;
 
                 // Create dirs
-                if (! File::exists(storage_path($quiz->getStorageDirName()))) {
+                /*if (! File::exists(storage_path($quiz->getStorageDirName()))) {
                     File::makeDirectory(storage_path($quiz->getStorageDirName()), 0755, true);
-                }
+                }*/
 
                 // Cover image
                 $coverImage = Image::make($request->file('coverImage'))
@@ -157,9 +157,9 @@ class QuizController extends Controller
                 . round(microtime(true) * 1000) . '.jpg';
 
             // Create dirs
-            if (! File::exists(storage_path($user->getStorageDirName()))) {
+            /*if (! File::exists(storage_path($user->getStorageDirName()))) {
                 File::makeDirectory(storage_path($user->getStorageDirName()), 0755, true);
-            }
+            }*/
 
             // Build the user's avatar url
             $avatarUrl = "https://graph.facebook.com/v3.0/{$user->facebookId}/picture?width=1000";
@@ -171,7 +171,7 @@ class QuizController extends Controller
 
             // Base image
             $baseImage = Image::make($randomImage)
-                ->insert($avatarImage, 'center', $quiz->avatarPositionX, $quiz->avatarPositionX)
+                ->insert($avatarImage, 'top-left', $quiz->avatarPositionX, $quiz->avatarPositionX)
                 ->stream();
 
             // Result image
@@ -197,7 +197,6 @@ class QuizController extends Controller
             }
         } catch (\Exception $exception) {
             $errorMsg = $exception->getMessage();
-            dd($exception);
         }
 
         if ($success) {
@@ -292,9 +291,9 @@ class QuizController extends Controller
                 . round(microtime(true) * 1000) . '.png';
 
             // Create dirs
-            if (! File::exists($quiz->getTemplatesDirName())) {
+            /*if (! File::exists($quiz->getTemplatesDirName())) {
                 File::makeDirectory(public_path($quiz->getTemplatesDirName()), 0755, true);
-            }
+            }*/
 
             // Template image
             $templateImage = Image::make($request->file('file'))
