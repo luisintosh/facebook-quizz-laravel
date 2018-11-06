@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class UserQuiz extends Model
 {
@@ -25,5 +26,16 @@ class UserQuiz extends Model
      */
     public function quiz() {
         return $this->hasOne('App\Quiz');
+    }
+
+    /**
+     * Return the asset's URL
+     * @return string
+     */
+    public function getImageUrl()
+    {
+        return empty($this->imageUrl)
+            ? asset('images/quizzes/quizCoverImagePlaceholder.png')
+            : Storage::disk('public')->url($this->imageUrl) ;
     }
 }

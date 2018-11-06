@@ -147,6 +147,10 @@ class QuizController extends Controller
         try{
             // Random image url
             $randomImage = $quiz->images()->inRandomOrder()->firstOrFail();
+            if (! Storage::disk('public')->exists($randomImage->imageUrl)) {
+                throw new Exception(__('Error: No existe la siguiente imagen: ' . $randomImage->imageUrl));
+            }
+
             $randomImage = Storage::disk('public')->get($randomImage->imageUrl);
             // Route where we will save the image
             $resultPath = $user->getStorageDirName() . DIRECTORY_SEPARATOR
@@ -167,12 +171,12 @@ class QuizController extends Controller
 
             // Base image
             $baseImage = Image::make($randomImage)
-                ->insert($avatarImage)
+                ->insert($avatarImage, 'top-left', $quiz->avatarPositionX, $quiz->avatarPositionY)
                 ->stream();
 
             // Result image
             $resultImage = Image::make($baseImage)
-                ->insert($randomImage, 'top-left', 0, 0)
+                ->insert($randomImage)
                 ->encode('jpg', 75);
 
             // Save files
@@ -303,7 +307,7 @@ class QuizController extends Controller
             if (Storage::disk('public')->exists($templatePath)) {
                 $quizImage = new QuizImage([
                     'quiz_id' => $quiz->id,
-                    'imageUrl' => Storage::disk('public')->url($templatePath),
+                    'imageUrl' => $templatePath,
                     'imageSize' => $fileSize
                 ]);
 

@@ -12,6 +12,7 @@ require('./libs/jquery.restfulizer');
 window.Dropzone = require('./libs/dropzone/dropzone');
 require('summernote/dist/summernote-bs4.min');
 require('./libs/infinite-scroll.pkgd');
+require('cropperjs');
 
 // Init jquery plugins
 $(document).ready(function () {

@@ -22,6 +22,9 @@
 // Animate.css
 @import './libs/animate.css';
 
+// Cropper JS
+@import '~cropperjs/dist/cropper.css';
+
 @include media-breakpoint-between(xs, sm) {
     .container {
         padding-left: 0 !important;
