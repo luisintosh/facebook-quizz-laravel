@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Quiz extends Model
 {
@@ -42,6 +43,28 @@ class Quiz extends Model
 
     public function getTemplatesDirName() {
         return $this->getStorageDirName() . DIRECTORY_SEPARATOR . 'templates';
+    }
+
+    /**
+     * Return the asset's URL
+     * @return string
+     */
+    public function getCoverUrl()
+    {
+        return empty($this->coverImage)
+            ? asset('images/quizzes/quizCoverImagePlaceholder.png')
+            : Storage::disk('public')->url($this->coverImage);
+    }
+
+    /**
+     * Return the asset's URL
+     * @return string
+     */
+    public function getThumbUrl()
+    {
+        return empty($this->thumbImage)
+            ? asset('images/quizzes/quizCoverImagePlaceholder.png')
+            : Storage::disk('public')->url($this->thumbImage);
     }
 
     /**

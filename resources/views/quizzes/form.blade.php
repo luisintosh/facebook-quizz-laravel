@@ -75,8 +75,8 @@
                                 <small class="form-text text-muted">{{ __('La imagen debe tener exactamente las medidas 1200x630px') }}</small>
                             </div>
                             <hr>
-                            <a href="{{ $quiz->coverImage ? $quiz->coverImage : asset('images/quizzes/quizCoverImagePlaceholder.png') }}" target="_blank">
-                                <img src="{{ $quiz->coverImage ? $quiz->coverImage : asset('images/quizzes/quizCoverImagePlaceholder.png') }}"
+                            <a href="{{ $quiz->getCoverUrl() }}" target="_blank">
+                                <img src="{{ $quiz->getCoverUrl() }}"
                                      alt="Cover image" id="coverImageContainer" class="img-fluid">
                             </a>
                         </div>
@@ -149,8 +149,8 @@
                             @foreach($quiz->images()->get() as $image)
                                 <tr>
                                     <td>
-                                        <a href="{{ $image->imageUrl }}" target="_blank">
-                                            <img src="{{ $image->imageUrl }}" class="img-fluid" width="70">
+                                        <a href="{{ $image->getImageUrl() }}" target="_blank">
+                                            <img src="{{ $image->getImageUrl() }}" class="img-fluid" width="70">
                                         </a>
                                     </td>
                                     <td>

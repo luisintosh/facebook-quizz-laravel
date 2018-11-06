@@ -27,8 +27,8 @@
                     @foreach($quizzes as $quiz)
                         <tr>
                             <td>
-                                <a href="{{ $quiz->coverImage }}" target="_blank">
-                                    <img src="{{ $quiz->thumbImage }}" alt="Quiz" width="70">
+                                <a href="{{ $quiz->getCoverUrl() }}" target="_blank">
+                                    <img src="{{ $quiz->getThumbUrl() }}" alt="Quiz" width="70">
                                 </a>
                             </td>
                             <td>

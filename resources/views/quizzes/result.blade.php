@@ -2,7 +2,7 @@
 
 @section('meta_title', $quiz->resultTitle)
 @section('meta_description', $quiz->resultDescription)
-@section('meta_image', $userQuiz->imageUrl)
+@section('meta_image', $userQuiz->getImageUrl())
 @section('meta_url', route('quiz.result', ['slug' => $quiz->slug, 'id' => $userQuiz->id]))
 
 @section('content')
@@ -11,7 +11,7 @@
             <div class="card shadow-sm rounded mb-4 animated tada">
                 <div class="card-body">
                     <h2 class="mb-4">{{ $quiz->resultTitle }}</h2>
-                    <img src="{{ $userQuiz->imageUrl }}" class="img-fluid mb-4" alt="{{ $quiz->resultTitle }}">
+                    <img src="{{ $userQuiz->getImageUrl() }}" class="img-fluid mb-4" alt="{{ $quiz->resultTitle }}">
                     <div class="card-description text-secondary mb-4">
                         {{ $quiz->resultDescription }}
                     </div>

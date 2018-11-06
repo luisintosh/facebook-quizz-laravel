@@ -26,7 +26,7 @@
         @foreach(\App\Quiz::random(5) as $index => $hotQuizz)
             <a href="#">
                 <figure class="hotQuiz">
-                    <img src="{{ $hotQuizz->thumbImage }}" alt="{{ $hotQuizz->title }}" class="img-fluid">
+                    <img src="{{ $hotQuizz->getThumbUrl() }}" alt="{{ $hotQuizz->title }}" class="img-fluid">
                     <span class="hotQuizNumber">{{ $index+1 }}</span>
                 </figure>
                 <span class="hotQuizTitle text-dark font-weight-bold text-justify">{{ $hotQuizz->title }}</span>

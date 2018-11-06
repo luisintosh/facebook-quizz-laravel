@@ -78,11 +78,6 @@ class QuizController extends Controller
                 $coverPath = $quiz->getStorageDirName() . DIRECTORY_SEPARATOR . Quiz::COVER_IMAGE_NAME;
                 $thumbPath = $quiz->getStorageDirName() . DIRECTORY_SEPARATOR . Quiz::THUMB_IMAGE_NAME;
 
-                // Create dirs
-                /*if (! File::exists(storage_path($quiz->getStorageDirName()))) {
-                    File::makeDirectory(storage_path($quiz->getStorageDirName()), 0755, true);
-                }*/
-
                 // Cover image
                 $coverImage = Image::make($request->file('coverImage'))
                     ->encode('jpg', 75);
@@ -98,8 +93,8 @@ class QuizController extends Controller
 
                 // Check results
                 if (Storage::disk('public')->exists($coverPath) && Storage::disk('public')->exists($thumbPath)) {
-                    $quiz->coverImage = Storage::disk('public')->url($coverPath);
-                    $quiz->thumbImage = Storage::disk('public')->url($thumbPath);
+                    $quiz->coverImage = $coverPath;
+                    $quiz->thumbImage = $thumbPath;
 
                     if ($quiz->save()) {
                         $success = true;
@@ -142,6 +137,7 @@ class QuizController extends Controller
         if (! Auth::check()) {
             return redirect()->route('social.auth', ['provider' => 'facebook']);
         }
+
         $quiz = Quiz::where([['enabled', '=', true], ['slug', '=', $slug]])->firstOrFail();
         $user = User::findOrFail(Auth::id());
         $success = false;
@@ -151,7 +147,7 @@ class QuizController extends Controller
         try{
             // Random image url
             $randomImage = $quiz->images()->inRandomOrder()->firstOrFail();
-            $randomImage = $randomImage->imageUrl;
+            $randomImage = Storage::disk('public')->get($randomImage->imageUrl);
             // Route where we will save the image
             $resultPath = $user->getStorageDirName() . DIRECTORY_SEPARATOR
                 . round(microtime(true) * 1000) . '.jpg';
@@ -171,7 +167,7 @@ class QuizController extends Controller
 
             // Base image
             $baseImage = Image::make($randomImage)
-                ->insert($avatarImage, 'top-left', $quiz->avatarPositionX, $quiz->avatarPositionX)
+                ->insert($avatarImage)
                 ->stream();
 
             // Result image
@@ -187,7 +183,7 @@ class QuizController extends Controller
                 $userQuiz = new UserQuiz([
                     'quiz_id' => $quiz->id,
                     'user_id' => $user->id,
-                    'imageUrl' => Storage::disk('public')->url($resultPath),
+                    'imageUrl' => $resultPath,
                     'imageSize' => $resultImage->filesize(),
                 ]);
 
