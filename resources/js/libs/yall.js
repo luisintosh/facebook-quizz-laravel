@@ -4,7 +4,7 @@
  **/
 
 // The eponymous function
-var yall = function(userOptions) {
+window.yall = function(userOptions) {
   // This function handles the lazy loading of elements. It's kicked off by the
   // scroll handlers/intersection observers further down.
   let yallLoad = function(element) {
@@ -194,4 +194,3 @@ var yall = function(userOptions) {
     mutationListener.observe(document.querySelector(options.observeRootSelector), options.mutationObserverOptions);
   }
 };
-document.addEventListener("DOMContentLoaded", yall);

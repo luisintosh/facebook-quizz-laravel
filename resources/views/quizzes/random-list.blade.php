@@ -5,7 +5,7 @@
                 <div class="col-sm-5">
                     <a href="{{ route('quiz.show', $randomQuiz->slug) }}">
                         <img src="{{ asset('images/quizzes/thumbTransparent.png') }}" data-src="{{ $randomQuiz->getThumbUrl() }}"
-                             alt="{{ $randomQuiz->title }}" class="card-img-top mb-2 lazy" width="300" height="157">
+                             alt="{{ $randomQuiz->title }}" class="card-img-top mb-2 lazy">
                     </a>
                 </div>
                 <div class="col-sm-7 card-info text-justify">

@@ -28,4 +28,11 @@ $(document).ready(function () {
   $('.form-group.htmlEditor textarea').summernote({
     height: 300
   });
+  // Image lazy loader
+  $(document).ready(window.yall);
+  $('.quizContainer').on('append.infiniteScroll', window.yall);
 });
+
+// Init vanilla plugins
+// Image lazy loader
+document.addEventListener("DOMContentLoaded", window.yall);
