@@ -80,12 +80,12 @@ class QuizController extends Controller
 
                 // Cover image
                 $coverImage = Image::make($request->file('coverImage'))
-                    ->encode('jpg', 75);
+                    ->encode('jpg', 85);
 
                 // Thumb image
                 $thumbImage = Image::make($request->file('coverImage'))
                     ->fit(300, 157)
-                    ->encode('jpg', 75);
+                    ->encode('jpg', 85);
 
                 // Save files
                 Storage::disk('public')->put($coverPath, (string)$coverImage);
@@ -171,6 +171,7 @@ class QuizController extends Controller
 
             // Base image
             $baseImage = Image::make($randomImage)
+                // image, initial position, padding x, padding y
                 ->insert($avatarImage, 'top-left', $quiz->avatarPositionX, $quiz->avatarPositionY)
                 ->stream();
 
@@ -200,9 +201,15 @@ class QuizController extends Controller
         }
 
         if ($success) {
-            return redirect()->route('quiz.result', ['slug' => $slug, 'id' => $userQuiz->id]);
+            return response()->json([
+                'status' => 'success',
+                'url' => route('quiz.result', ['slug' => $slug, 'id' => $userQuiz->id])
+            ]);
         } else {
-            return back()->with('error', $errorMsg);
+            return response()->json([
+                'status' => 'error',
+                'message' => $errorMsg
+            ], 500);
         }
     }
 
@@ -210,6 +217,11 @@ class QuizController extends Controller
     {
         $quiz = Quiz::where([['enabled', '=', true], ['slug', '=', $slug]])->firstOrFail();
         $userQuiz = UserQuiz::findOrFail($id);
+
+        // Redirect to the original
+        if (!Auth::check() || Auth::user()->id != $userQuiz->user_id) {
+            return redirect()->route('quiz.show', ['slug' => $slug]);
+        }
 
         // Replace helpers
         $quiz->resultTitle = str_replace('USERNAME', Auth::user()->name, $quiz->resultTitle);

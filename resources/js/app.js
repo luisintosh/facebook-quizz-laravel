@@ -12,18 +12,33 @@ require('./libs/jquery.restfulizer');
 window.Dropzone = require('./libs/dropzone/dropzone');
 require('summernote/dist/summernote-bs4.min');
 require('./libs/infinite-scroll.pkgd');
-require('cropperjs');
-
-// Init jquery plugins
-$(document).ready(function () {
-    // Datatables
-    $('.dt').DataTable();
-    // WYSIWYG Editor
-    $('.form-group.htmlEditor textarea').summernote({
-        height: 300
-    });
-});
+window.Cropper = require('cropperjs/dist/cropper');
 
 // Page scripts
 require('./scripts/quizzes');
 require('./scripts/loadMoreQuizzes');
+require('./scripts/quiz');
+
+// Init jquery plugins
+$(document).ready(function () {
+  // Datatables
+  $('.dt').DataTable();
+  // WYSIWYG Editor
+  $('.form-group.htmlEditor textarea').summernote({
+    height: 300
+  });
+});
+
+// Cropper JS
+$('#initCropper').click(function () {
+  new Cropper(document.getElementById('cropper'), {
+    aspectRatio: 1,
+    background: false,
+    crop(event) {
+      $('#avatarPositionX').val( parseInt(event.detail.x) );
+      $('#avatarPositionY').val( parseInt(event.detail.y) );
+      $('#avatarWidth').val( parseInt(event.detail.width) );
+      $('#avatarHeight').val( parseInt(event.detail.height) );
+    }
+  });
+});

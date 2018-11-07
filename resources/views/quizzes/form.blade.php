@@ -81,6 +81,32 @@
                             </a>
                         </div>
                         <div class="col-md-3">
+
+                        </div>
+                    </div>
+                    <hr>
+                    <h3>Configuración de la plantilla</h3>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">{{ __('Subir imagen') }}</span>
+                                    </div>
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="templateImage" accept="image/*">
+                                        <label class="custom-file-label" for="templateImage">{{ __('Elegir imagen plantilla') }}</label>
+                                    </div>
+                                </div>
+                                <small class="form-text text-muted">{{ __('La imagen debe tener exactamente las medidas 1200x630px') }}.
+                                    {{ __('Esta imagen no será guardada') }}.</small>
+                            </div>
+                            <hr>
+                            <img src="{{ $quiz->getCoverUrl() }}"
+                                 alt="Cover image" id="cropper" class="img-fluid">
+                        </div>
+                        <div class="col-md-3">
                             <div class="row mb-4">
                                 <div class="col-lg-12">
                                     {{ __('Coordenadas del avatar X/Y') }}
@@ -121,6 +147,10 @@
                                 <div class="col-lg-12">
                                     <small class="form-text text-muted">{{ __('Tamaño de la foto de perfil en px') }}</small>
                                 </div>
+                            </div>
+
+                            <div class="mt-2">
+                                <button type="button" id="initCropper" class="btn btn-block btn-outline-primary">{{ __('Calcular coordenadas') }}</button>
                             </div>
                         </div>
                     </div>

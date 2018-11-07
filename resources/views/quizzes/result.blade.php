@@ -12,15 +12,25 @@
                 <div class="card-body">
                     <h2 class="mb-4">{{ $quiz->resultTitle }}</h2>
                     <img src="{{ $userQuiz->getImageUrl() }}" class="img-fluid mb-4" alt="{{ $quiz->resultTitle }}">
-                    <div class="card-description text-secondary mb-4">
-                        {{ $quiz->resultDescription }}
-                    </div>
-                    <div class="shareButtonsBlock text-center mb-3 p-3">
-                        <div class="addthis_inline_share_toolbox"></div>
-                    </div>
                     <div class="ad text-center mb-4">
                         {{ \App\Settings::get('google_adsense') }}
                     </div>
+                    <div class="card-description text-secondary mb-4">
+                        {{ $quiz->resultDescription }}
+                    </div>
+                    <div class="bg-light text-center mb-3 p-3">
+                        <p>{{ __('¡Comparte este resultado con tus amigos!') }}</p>
+                        <br>
+                        <div class="addthis_inline_share_toolbox"></div>
+                        <br>
+                        {!! Form::open()->route('quiz.do-quiz', ['slug'=>$quiz->slug], false)->post()->id('doQuiz') !!}
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-gamepad"></i>
+                            {{ __('Volver a jugar') }}
+                        </button>
+                        {!! Form::close() !!}
+                    </div>
+                    @include('layouts.loading')
                 </div>
             </div>
 

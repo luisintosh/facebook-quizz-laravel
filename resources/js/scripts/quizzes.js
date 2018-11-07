@@ -1,49 +1,74 @@
 
 // Quiz scripts
 $(document).ready(function () {
-    if (window.location.pathname.indexOf('/quizzes') >= 0) {
-        // Check image width and height
-        $('form #coverImage').change(function () {
-            var self = this;
-            var fr = new FileReader;
+  if (window.location.pathname.indexOf('/quizzes') >= 0) {
+    // Check image width and height
+    $('form #coverImage').change(function () {
+      var self = this;
+      var fr = new FileReader;
 
-            fr.onload = function() {
-                var img = new Image;
+      fr.onload = function() {
+        var img = new Image;
 
-                img.onload = function() {
-                    if (! (img.width === 1200 && img.height === 630) ) {
-                        self.value = '';
-                        $(self).addClass('is-invalid');
-                    } else {
-                        $('#coverImageContainer').attr('src', img.src);
-                        $(self).removeClass('is-invalid');
-                    }
-                };
+        img.onload = function() {
+          if (! (img.width === 1200 && img.height === 630) ) {
+            self.value = '';
+            $(self).addClass('is-invalid');
+          } else {
+            $('#coverImageContainer').attr('src', img.src);
+            $(self).removeClass('is-invalid');
+          }
+        };
 
-                img.src = fr.result;
-            };
+        img.src = fr.result;
+      };
 
-            fr.readAsDataURL(this.files[0]);
+      fr.readAsDataURL(this.files[0]);
 
-        });
+    });
 
-        // convert title to slug
-        $('form #title').on('change keyup', function () {
-            const title = this.value.split('');
-            let slug = [];
-            title.forEach(function (element) {
-                if (/[$-/:-?{-~!"^_`\[\]¿]/.test(element)) {
-                    element = '';
-                } else if(element === ' ') {
-                    element = '-';
-                } else {
-                    element = element.toLowerCase();
-                }
+    // Check image width and height
+    $('form #templateImage').change(function () {
+      var self = this;
+      var fr = new FileReader;
 
-                slug.push(element);
-            });
+      fr.onload = function() {
+        var img = new Image;
 
-            $('form #slug').val(slug.join(''));
-        })
-    }
+        img.onload = function() {
+          if (! (img.width === 1200 && img.height === 630) ) {
+            self.value = '';
+            $(self).addClass('is-invalid');
+          } else {
+            $('#cropper').attr('src', img.src);
+            $(self).removeClass('is-invalid');
+          }
+        };
+
+        img.src = fr.result;
+      };
+
+      fr.readAsDataURL(this.files[0]);
+
+    });
+
+    // convert title to slug
+    $('form #title').on('change keyup', function () {
+      const title = this.value.split('');
+      let slug = [];
+      title.forEach(function (element) {
+        if (/[$-/:-?{-~!"^_`\[\]¿]/.test(element)) {
+          element = '';
+        } else if(element === ' ') {
+          element = '-';
+        } else {
+          element = element.toLowerCase();
+        }
+
+        slug.push(element);
+      });
+
+      $('form #slug').val(slug.join(''));
+    })
+  }
 });
