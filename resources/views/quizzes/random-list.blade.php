@@ -1,5 +1,5 @@
 @foreach(\App\Quiz::random(5) as $randomQuiz)
-    <div class="card postItem mb-4 shadow-sm rounded animated zoomIn">
+    <div class="card postItem mb-4 shadow-sm rounded animated zoomIn faster">
         <div class="card-body">
             <div class="row">
                 <div class="col-sm-5">
@@ -21,7 +21,7 @@
     </div>
 @endforeach
 
-<div class="card postItem mb-4 shadow-sm rounded animated zoomIn">
+<div class="card postItem mb-4 shadow-sm rounded animated zoomIn faster">
     <div class="card-body">
         @include('layouts.ad-rectangle')
     </div>
