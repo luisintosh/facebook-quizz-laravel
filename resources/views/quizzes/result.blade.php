@@ -1,22 +1,28 @@
 @extends('layouts.app')
 
-@section('meta_title', $quiz->resultTitle)
-@section('meta_description', $quiz->resultDescription)
+@section('meta_title', $userQuiz->title)
+@section('meta_description', $userQuiz->description)
 @section('meta_image', $userQuiz->getImageUrl())
 @section('meta_url', route('quiz.result', ['slug' => $quiz->slug, 'id' => $userQuiz->id]))
+
+@if($redirectToOriginal)
+    <script>
+      window.location.href = "{{ route('quiz.show', ['slug' => $quiz->slug]) }}";
+    </script>
+@endif
 
 @section('content')
     <div class="row">
         <div class="col-md-8">
             <div class="card shadow-sm rounded mb-4 animated tada">
                 <div class="card-body">
-                    <h2 class="mb-4">{{ $quiz->resultTitle }}</h2>
-                    <img src="{{ $userQuiz->getImageUrl() }}" class="img-fluid mb-4" alt="{{ $quiz->resultTitle }}">
+                    <h2 class="mb-4">{{ $userQuiz->title }}</h2>
+                    <img src="{{ $userQuiz->getImageUrl() }}" class="img-fluid mb-4" alt="{{ $userQuiz->title }}">
                     <div class="ad text-center mb-4">
                         {{ \App\Settings::get('google_adsense') }}
                     </div>
                     <div class="card-description text-secondary mb-4">
-                        {{ $quiz->resultDescription }}
+                        {{ $userQuiz->description }}
                     </div>
                     <div class="bg-light text-center mb-3 p-3">
                         <p>{{ __('¡Comparte este resultado con tus amigos!') }}</p>
@@ -43,9 +49,3 @@
         </div>
     </div>
 @endsection
-
-@if($redirectToOriginal)
-    <script>
-      window.location.href = "{{ route('quiz.show', ['slug' => $quiz->slug]) }}";
-    </script>
-@endif

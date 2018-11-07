@@ -185,11 +185,21 @@ class QuizController extends Controller
 
             // Check results
             if (Storage::disk('public')->exists($resultPath)) {
+                // Replace helpers
+                $quiz->resultTitle = str_replace('USERNAME', Auth::user()->name, $quiz->resultTitle);
+                $quiz->resultDescription = str_replace('USERNAME', Auth::user()->name, $quiz->resultDescription);
+
+                $quiz->resultTitle = str_replace('USERLASTNAME', Auth::user()->lastname, $quiz->resultTitle);
+                $quiz->resultDescription = str_replace('USERLASTNAME', Auth::user()->lastname, $quiz->resultDescription);
+
+                // create new record
                 $userQuiz = new UserQuiz([
                     'quiz_id' => $quiz->id,
                     'user_id' => $user->id,
                     'imageUrl' => $resultPath,
                     'imageSize' => $resultImage->filesize(),
+                    'title' => $quiz->resultTitle,
+                    'description' => $quiz->resultDescription
                 ]);
 
                 if ($userQuiz->save()) {
@@ -220,16 +230,9 @@ class QuizController extends Controller
         $redirectToOriginal = false;
 
         // Redirect to the original
-        if (!Auth::check() || Auth::user()->id != $userQuiz->user_id) {
+        if (!isset(Auth::user()->id) || Auth::user()->id != $userQuiz->user_id) {
             $redirectToOriginal = true;
         }
-
-        // Replace helpers
-        $quiz->resultTitle = str_replace('USERNAME', Auth::user()->name, $quiz->resultTitle);
-        $quiz->resultDescription = str_replace('USERNAME', Auth::user()->name, $quiz->resultDescription);
-
-        $quiz->resultTitle = str_replace('USERLASTNAME', Auth::user()->lastname, $quiz->resultTitle);
-        $quiz->resultDescription = str_replace('USERLASTNAME', Auth::user()->lastname, $quiz->resultDescription);
 
         return view('quizzes.result', ['quiz' => $quiz, 'userQuiz' => $userQuiz, 'redirectToOriginal' => $redirectToOriginal]);
     }

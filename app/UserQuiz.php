@@ -17,7 +17,9 @@ class UserQuiz extends Model
         'quiz_id',
         'user_id',
         'imageUrl',
-        'imageSize'
+        'imageSize',
+        'title',
+        'description'
     ];
 
     /**

@@ -5,12 +5,12 @@
 <meta name="author" content="{{ \App\Settings::get('site_name', 'Tequilapps') }}">
 
 {{--OPEN GRAPH--}}
-<meta property="og:type" content="game.achievement">
+<meta property="og:type" content="article">
 <meta property="og:title" content="@yield('meta_title')">
 <meta property="og:description" content="@yield('meta_description')" />
 <meta property="og:url" content="@yield('meta_url')">
 <meta property="og:image" content="@yield('meta_image')">
-<meta property="game:points" content="100">
+<meta property="fb:app_id" content="{{ env('FACEBOOK_CLIENT_ID') }}" />
 
 {{--TWTITTER CARD--}}
 <meta name="twitter:card" content="summary_large_image">
