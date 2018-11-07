@@ -37,6 +37,14 @@ class Quiz extends Model
         return $this->hasMany('App\QuizImage');
     }
 
+    /**
+     * Get all the quizzes made by the users
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function usersQuizzes() {
+        return $this->hasMany('App\UserQuiz');
+    }
+
     public function getStorageDirName() {
         return 'images' . DIRECTORY_SEPARATOR . 'quizzes' . DIRECTORY_SEPARATOR . $this->id;
     }

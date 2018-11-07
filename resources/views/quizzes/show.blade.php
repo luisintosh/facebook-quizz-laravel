@@ -11,11 +11,14 @@
             <div class="card shadow-sm rounded mb-4">
                 <div class="card-body">
                     @include('layouts.messages')
-                    <h2 class="mb-4">{{ $quiz->title }}</h2>
-                    <img src="{{ $quiz->getCoverUrl() }}" class="img-fluid mb-4" alt="{{ $quiz->title }}">
-                    <div class="ad text-center mb-4">
+                    <div class="ad text-center">
                         {{ \App\Settings::get('google_adsense') }}
                     </div>
+
+                    <img src="{{ $quiz->getCoverUrl() }}" class="img-fluid mb-4" alt="{{ $quiz->title }}">
+
+                    <h2 class="mb-4">{{ $quiz->title }}</h2>
+
                     <div class="card-description text-secondary mb-4">
                         {{ $quiz->description }}
                     </div>

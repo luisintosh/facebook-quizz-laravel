@@ -74,10 +74,7 @@
         </nav>
     </header>
     <div class="page-holder">
-        <section class="text-center mt-sm-4">
-            {{ \App\Settings::get('google_adsense') }}
-        </section>
-        <section class="shape-1 shape-1-sm mt-sm-4">
+        <section class="shape-1 shape-1-sm mt-sm-5">
             <div class="container">
                 <!-- ============================================================== -->
                 <!-- Start Page Content -->

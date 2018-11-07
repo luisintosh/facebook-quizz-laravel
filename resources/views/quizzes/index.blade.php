@@ -19,7 +19,9 @@
                     <tr>
                         <th width="1%">{{ __('Imágen') }}</th>
                         <th>{{ __('Título') }}</th>
+                        <th width="1%">{{ __('Jugados') }}</th>
                         <th width="1%">{{ __('Activo') }}</th>
+                        <th>{{ __('Creado') }}</th>
                         <th width="1%">{{ __('Acciones') }}</th>
                     </tr>
                     </thead>
@@ -37,11 +39,17 @@
                                 </a>
                             </td>
                             <td>
+                                {{ $quiz->usersQuizzes()->count() }}
+                            </td>
+                            <td>
                                 @if($quiz->enabled)
                                     <i class="fas fa-check text-success"></i>
                                 @else
                                     <i class="fas fa-times text-muted"></i>
                                 @endif
+                            </td>
+                            <td>
+                                {{ $quiz->created_at->format('Y-m-d') }}
                             </td>
                             <td>
                                 {!! Form::open()->route('quizzes.destroy', ['id'=>$quiz->id], false)->delete() !!}

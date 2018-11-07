@@ -16,11 +16,14 @@
         <div class="col-md-8">
             <div class="card shadow-sm rounded mb-4 animated tada">
                 <div class="card-body">
-                    <h2 class="mb-4">{{ $userQuiz->title }}</h2>
-                    <img src="{{ $userQuiz->getImageUrl() }}" class="img-fluid mb-4" alt="{{ $userQuiz->title }}">
-                    <div class="ad text-center mb-4">
+                    <div class="ad text-center">
                         {{ \App\Settings::get('google_adsense') }}
                     </div>
+
+                    <img src="{{ $userQuiz->getImageUrl() }}" class="img-fluid mb-4" alt="{{ $userQuiz->title }}">
+
+                    <h2 class="mb-4">{{ $userQuiz->title }}</h2>
+
                     <div class="card-description text-secondary mb-4">
                         {{ $userQuiz->description }}
                     </div>
