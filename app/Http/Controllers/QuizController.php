@@ -135,7 +135,10 @@ class QuizController extends Controller
     public function doQuiz($slug)
     {
         if (! Auth::check()) {
-            return redirect()->route('social.auth', ['provider' => 'facebook']);
+            return response()->json([
+                'status' => 'auth',
+                'url' => route('social.auth', ['provider' => 'facebook'])
+            ]);
         }
 
         $quiz = Quiz::where([['enabled', '=', true], ['slug', '=', $slug]])->firstOrFail();
