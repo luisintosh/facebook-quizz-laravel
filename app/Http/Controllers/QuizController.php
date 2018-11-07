@@ -181,7 +181,7 @@ class QuizController extends Controller
             // Result image
             $resultImage = Image::make($baseImage)
                 ->insert($randomImage)
-                ->encode('jpg', 75);
+                ->encode('jpg', 85);
 
             // Save files
             Storage::disk('public')->put($resultPath, (string)$resultImage);
