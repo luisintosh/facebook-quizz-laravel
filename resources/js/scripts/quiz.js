@@ -16,7 +16,8 @@ $(document).ready(function () {
       }).done(function (data) {
         window.location.href = data.url
       }).fail(function (data) {
-        alert(data.responseJSON.message);
+        alert('Error :(');
+        console.error(data.responseJSON.message);
         window.location.reload();
       });
     });
