@@ -43,3 +43,9 @@
         </div>
     </div>
 @endsection
+
+@if($redirectToOriginal)
+    <script>
+      window.location.href = "{{ route('quiz.show', ['slug' => $quiz->slug]) }}";
+    </script>
+@endif

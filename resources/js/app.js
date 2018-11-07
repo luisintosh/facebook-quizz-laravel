@@ -28,17 +28,3 @@ $(document).ready(function () {
     height: 300
   });
 });
-
-// Cropper JS
-$('#initCropper').click(function () {
-  new Cropper(document.getElementById('cropper'), {
-    aspectRatio: 1,
-    background: false,
-    crop(event) {
-      $('#avatarPositionX').val( parseInt(event.detail.x) );
-      $('#avatarPositionY').val( parseInt(event.detail.y) );
-      $('#avatarWidth').val( parseInt(event.detail.width) );
-      $('#avatarHeight').val( parseInt(event.detail.height) );
-    }
-  });
-});

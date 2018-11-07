@@ -103,8 +103,10 @@
                                     {{ __('Esta imagen no será guardada') }}.</small>
                             </div>
                             <hr>
-                            <img src="{{ $quiz->getCoverUrl() }}"
-                                 alt="Cover image" id="cropper" class="img-fluid">
+                            <div>
+                                <img src="{{ $quiz->getCoverUrl() }}"
+                                     alt="Cover image" id="cropper" class="img-fluid">
+                            </div>
                         </div>
                         <div class="col-md-3">
                             <div class="row mb-4">

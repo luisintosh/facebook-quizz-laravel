@@ -217,10 +217,11 @@ class QuizController extends Controller
     {
         $quiz = Quiz::where([['enabled', '=', true], ['slug', '=', $slug]])->firstOrFail();
         $userQuiz = UserQuiz::findOrFail($id);
+        $redirectToOriginal = false;
 
         // Redirect to the original
         if (!Auth::check() || Auth::user()->id != $userQuiz->user_id) {
-            return redirect()->route('quiz.show', ['slug' => $slug]);
+            $redirectToOriginal = true;
         }
 
         // Replace helpers
@@ -230,7 +231,7 @@ class QuizController extends Controller
         $quiz->resultTitle = str_replace('USERLASTNAME', Auth::user()->lastname, $quiz->resultTitle);
         $quiz->resultDescription = str_replace('USERLASTNAME', Auth::user()->lastname, $quiz->resultDescription);
 
-        return view('quizzes.result', ['quiz' => $quiz, 'userQuiz' => $userQuiz]);
+        return view('quizzes.result', ['quiz' => $quiz, 'userQuiz' => $userQuiz, 'redirectToOriginal' => $redirectToOriginal]);
     }
 
     /**
