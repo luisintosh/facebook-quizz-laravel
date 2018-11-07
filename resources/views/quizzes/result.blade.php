@@ -5,13 +5,13 @@
 @section('meta_image', $userQuiz->getImageUrl())
 @section('meta_url', route('quiz.result', ['slug' => $quiz->slug, 'id' => $userQuiz->id]))
 
-@if($redirectToOriginal)
-    <script>
-      window.location.href = "{{ route('quiz.show', ['slug' => $quiz->slug]) }}";
-    </script>
-@endif
-
 @section('content')
+    @if($redirectToOriginal)
+        <script>
+          window.location.href = "{{ route('quiz.show', ['slug' => $quiz->slug]) }}";
+        </script>
+    @endif
+
     <div class="row">
         <div class="col-md-8">
             <div class="card shadow-sm rounded mb-4 animated tada">
