@@ -36,3 +36,12 @@
 </script>
 
 <meta name="google-site-verification" content="{{ \App\Settings::get('google_site_verification') }}" />
+
+<!-- Adsense -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "{{ \App\Settings::get('google_adsense') }}",
+    enable_page_level_ads: true
+  });
+</script>
