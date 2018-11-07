@@ -12,10 +12,11 @@
                 <div class="card-body">
                     @include('layouts.messages')
                     <div class="ad text-center">
-                        {{ \App\Settings::get('google_adsense') }}
+                        @include('layouts.ad-rectangle')
                     </div>
 
-                    <img src="{{ $quiz->getCoverUrl() }}" class="img-fluid mb-4" alt="{{ $quiz->title }}">
+                    <img src="{{ $quiz->getCoverUrl() }}" class="img-fluid mb-4"
+                         alt="{{ $quiz->title }}">
 
                     <h2 class="mb-4">{{ $quiz->title }}</h2>
 

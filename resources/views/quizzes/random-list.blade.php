@@ -4,7 +4,8 @@
             <div class="row">
                 <div class="col-sm-5">
                     <a href="{{ route('quiz.show', $randomQuiz->slug) }}">
-                        <img src="{{ $randomQuiz->getThumbUrl() }}" alt="{{ $randomQuiz->title }}" class="card-img-top mb-2">
+                        <img src="{{ asset('images/quizzes/thumbTransparent.png') }}" data-src="{{ $randomQuiz->getThumbUrl() }}"
+                             alt="{{ $randomQuiz->title }}" class="card-img-top mb-2 lazy" width="300" height="157">
                     </a>
                 </div>
                 <div class="col-sm-7 card-info text-justify">
@@ -22,6 +23,6 @@
 
 <div class="card postItem mb-4 shadow-sm rounded">
     <div class="card-body">
-        {{ \App\Settings::get('google_adsense') }}
+        @include('layouts.ad-rectangle')
     </div>
 </div>

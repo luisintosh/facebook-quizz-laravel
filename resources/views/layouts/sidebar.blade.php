@@ -1,9 +1,5 @@
 {{--SIDEBAR AD 1--}}
-<div class="card sidebarAd mb-4 shadow-sm rounded">
-    <div class="card-body">
-        {{ \App\Settings::get('google_adsense') }}
-    </div>
-</div>
+@include('layouts.ad-square')
 
 {{--SOCIAL NETWORKS--}}
 <div class="socialNetworks mb-4">
@@ -24,9 +20,10 @@
     <div class="card-body">
         <h4 class="text-danger mb-4"><i class="fas fa-fire"></i> Top Quizzes</h4>
         @foreach(\App\Quiz::random(5) as $index => $hotQuizz)
-            <a href="#">
+            <a href="{{ route('quiz.show', ['slug' => $hotQuizz->slug]) }}">
                 <figure class="hotQuiz">
-                    <img src="{{ $hotQuizz->getThumbUrl() }}" alt="{{ $hotQuizz->title }}" class="img-fluid">
+                    <img src="{{ asset('images/quizzes/thumbTransparent.png') }}" data-src="{{ $hotQuizz->getThumbUrl() }}"
+                         alt="{{ $hotQuizz->title }}" class="img-fluid lazy">
                     <span class="hotQuizNumber">{{ $index+1 }}</span>
                 </figure>
                 <span class="hotQuizTitle text-dark font-weight-bold text-justify">{{ $hotQuizz->title }}</span>
@@ -37,15 +34,11 @@
 </div>
 
 {{--SIDEBAR AD 2--}}
-<div class="card sidebarAd mb-4 shadow-sm rounded">
-    <div class="card-body">
-        {{ \App\Settings::get('google_adsense') }}
-    </div>
-</div>
+@include('layouts.ad-square')
 
 {{--PRIVACY POLICY--}}
 <div class="card mb-4 shadow-sm rounded">
-    <div class="card-body">
+    <div class="card-body text-right">
         <small class="text-muted"><a href="{{ route('privacy') }}">{{ __('Políticas de privacidad') }}</a></small>
     </div>
 </div>

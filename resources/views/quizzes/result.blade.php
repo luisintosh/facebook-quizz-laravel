@@ -17,10 +17,11 @@
             <div class="card shadow-sm rounded mb-4 animated tada">
                 <div class="card-body">
                     <div class="ad text-center">
-                        {{ \App\Settings::get('google_adsense') }}
+                        @include('layouts.ad-rectangle')
                     </div>
 
-                    <img src="{{ $userQuiz->getImageUrl() }}" class="img-fluid mb-4" alt="{{ $userQuiz->title }}">
+                    <img src="{{ $userQuiz->getImageUrl() }}"
+                         class="img-fluid mb-4" alt="{{ $userQuiz->title }}">
 
                     <h2 class="mb-4">{{ $userQuiz->title }}</h2>
 

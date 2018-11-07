@@ -13,6 +13,7 @@ window.Dropzone = require('./libs/dropzone/dropzone');
 require('summernote/dist/summernote-bs4.min');
 require('./libs/infinite-scroll.pkgd');
 window.Cropper = require('cropperjs/dist/cropper');
+require('./libs/yall');
 
 // Page scripts
 require('./scripts/quizzes');
