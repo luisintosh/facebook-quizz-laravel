@@ -33,7 +33,18 @@
                             {!! Form::close() !!}
                         </div>
                     </div>
+
                     @include('layouts.loading')
+
+                    <div class="mt-3 mb-4 text-muted">
+                        <h4><small>¿Cómo puedo compartir el resultado de mi Quiz en mis redes sociales?</small></h4>
+                        <p><small>Es muy sencillo publicar el resultado de este quiz con tus amigos, lo único que debes hacer
+                                es oprimir el botón de la red social que quieres usar y al instante se abrirá una ventana
+                                que, dependiendo de la red social, te pedirá que ingreses un comentario o texto sobre tu
+                                publicación y listo a publicarla. Ahora ya sabes como compartir tus resultados con amigos
+                                y familiares, aprovecha e invítalos a usar esta App para que juntos se diviertan jugando
+                                estos quizzes.</small></p>
+                    </div>
                 </div>
             </div>
 
