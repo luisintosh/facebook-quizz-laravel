@@ -1,6 +1,11 @@
+
+
 # Facebook Quizz
 
-----------
+<p>
+<image src=https://i.imgur.com/UqrWozB.png style="display: inline; float: left; margin: 0 0;" width="45%"/>
+<image src=https://i.imgur.com/D0exvhV.png style="display: inline; float: left; margin: 0 0;" width="45%"/>
+</p>
 
 # Getting started
 
@@ -55,6 +60,17 @@ Run the database seeder and you're done
 
     php artisan migrate:refresh
 
+
+## [Configuration](https://laravel.com/docs/5.8/socialite#configuration)
+
+Before using Socialite, you will also need to add credentials for the OAuth services your application utilizes. These credentials should be placed in your  `.env`configuration file, and should use the key  `FACEBOOK_CLIENT_ID` and  `FACEBOOK_CLIENT_SECRET`. For example:
+
+```
+FACEBOOK_CLIENT_ID=xxxxxx316646661
+FACEBOOK_CLIENT_SECRET=xxxxxx889c333b5f9ea5c0a2bf760262
+```
+
+
 ----------
 
 # Code overview
@@ -84,3 +100,4 @@ Run the database seeder and you're done
 - `.env` - Environment variables can be set in this file
 
 ***Note*** : You can quickly set the database information and other variables in this file and have the application fully working.
+
